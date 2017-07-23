@@ -17,6 +17,7 @@ import com.angcyo.uiview.widget.ExEditText
 import com.angcyo.xzproducems.BuildConfig
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseItemUIView
+import com.angcyo.xzproducems.bean.LoginBean
 import com.angcyo.xzproducems.utils.DbUtil
 import com.orhanobut.hawk.Hawk
 
@@ -41,7 +42,7 @@ class LoginUIView : BaseItemUIView() {
 
                 if (BuildConfig.DEBUG) {
                     nameView.setInputText("admin")
-                    pwView.setInputText("81747")
+                    pwView.setInputText("666666")
                 }
 
                 val lastName = Hawk.get<String>("last_name", "")
@@ -55,29 +56,29 @@ class LoginUIView : BaseItemUIView() {
                             return
                         }
 
-                        Rx.base(object : RFunc<Int>() {
-                            override fun onFuncCall(): Int {
+                        Rx.base(object : RFunc<LoginBean>() {
+                            override fun onFuncCall(): LoginBean {
                                 return DbUtil.login(nameView.string(), pwView.string())
                             }
 
-                        }, object : RSubscriber<Int>() {
+                        }, object : RSubscriber<LoginBean>() {
                             override fun onStart() {
                                 super.onStart()
                                 UILoading.show2(mILayout).setLoadingTipText("登录中...")
                             }
 
-                            override fun onSucceed(bean: Int) {
+                            override fun onSucceed(bean: LoginBean) {
                                 super.onSucceed(bean)
                                 L.e("call: onSucceed -> $bean")
-                                if (bean == -10_000) {
+                                if (bean.GXID == -10_000) {
                                     T_.error("账号不存在.")
-                                } else if (bean == 0) {
+                                } else if (bean.GXID == 0) {
                                     T_.error("账户密码不匹配")
-                                } else if (bean > 0) {
+                                } else if (bean.GXID > 0) {
                                     //T_.info("登录成功")
                                     Hawk.put<String>("last_name", nameView.string())
 
-                                    replaceIView(MainUIView())
+                                    replaceIView(MainUIView(bean))
                                 } else {
                                     T_.error("登录失败")
                                 }

@@ -1,6 +1,7 @@
 package com.angcyo.xzproducems.utils
 
 import com.angcyo.library.utils.L
+import com.angcyo.xzproducems.bean.LoginBean
 import net.sourceforge.jtds.jdbc.JtdsResultSet
 
 /**
@@ -50,8 +51,8 @@ object DbUtil {
     }
 
     /**登录*/
-    fun login(name: String, pw: String): Int {
-        var result: Int = 0
+    fun login(name: String, pw: String): LoginBean {
+        val result = LoginBean()
         Jtds.prepareCall_set("UP_GET_USERPOWER", 2,
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("USERID", name)
@@ -60,11 +61,12 @@ object DbUtil {
                 { jtdsResultSet ->
                     if (jtdsResultSet.next()) {
                         val GXID = jtdsResultSet.getInt("GXID")
-                        L.e("call: login -> $GXID")
-                        result = GXID
+                        val IsModify = jtdsResultSet.getInt("IsModify")
+                        L.e("call: login -> $GXID $IsModify")
+                        result.GXID = GXID
+                        result.IsModify = IsModify
                     } else {
                         L.e("call: login -> 无数据")
-                        result = -10_000
                     }
                 })
 
