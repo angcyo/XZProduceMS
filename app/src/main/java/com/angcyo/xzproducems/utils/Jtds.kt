@@ -1,5 +1,6 @@
 package com.angcyo.xzproducems.utils
 
+import com.angcyo.uiview.utils.RUtils
 import net.sourceforge.jtds.jdbc.JtdsCallableStatement
 import net.sourceforge.jtds.jdbc.JtdsConnection
 import net.sourceforge.jtds.jdbc.JtdsResultSet
@@ -63,14 +64,21 @@ object Jtds {
         var connection: JtdsConnection? = null
         try {
             connection = Jtds.connectDB()
-            var paramBuild = StringBuilder()
+
+            val paramBuild = StringBuilder()
             for (i in 0..paramCount - 1) {
                 paramBuild.append("?")
                 paramBuild.append(",")
             }
 
-            val call = connection.prepareCall("{call UP_QUERY_PUR01(?)}")
-            val resultSet = call.executeQuery() as JtdsResultSet
+            val jtdsCallableStatement = connection.prepareCall("{call $call(${RUtils.safe(paramBuild)})}") as JtdsCallableStatement
+            if (paramCount > 0) {
+                param?.invoke(jtdsCallableStatement)
+            }
+
+            val resultSet = jtdsCallableStatement.executeQuery() as JtdsResultSet
+            result.invoke(resultSet)
+
             connection.close()
         } catch(e: Exception) {
             e.printStackTrace()

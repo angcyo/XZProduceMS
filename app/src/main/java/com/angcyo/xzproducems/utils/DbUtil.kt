@@ -1,5 +1,6 @@
 package com.angcyo.xzproducems.utils
 
+import com.angcyo.library.utils.L
 import net.sourceforge.jtds.jdbc.JtdsResultSet
 
 /**
@@ -7,7 +8,6 @@ import net.sourceforge.jtds.jdbc.JtdsResultSet
  */
 object DbUtil {
     fun test() {
-        Jtds.init("112.29.171.138:21006", "bssjk", "xzsoft", "xzsoft")
         val connection = Jtds.connectDB()
         //L.e("call: test -> ")
         System.out.println("ok... ${connection.isClosed} $connection")
@@ -47,5 +47,27 @@ object DbUtil {
         val WARNMEMO = execute.getString("WARNMEMO")
         connection.close()
         System.out.println("test2 ok...2 $execute $WARNMEMO")
+    }
+
+    fun login(name: String, pw: String): Int {
+        var result: Int = 0
+
+        Jtds.prepareCall_set("UP_GET_USERPOWER", 2,
+                { jtdsCallableStatement ->
+                    jtdsCallableStatement.setString("USERID", name)
+                    jtdsCallableStatement.setString("PASSWORD", pw)
+                },
+                { jtdsResultSet ->
+                    if (jtdsResultSet.next()) {
+                        val GXID = jtdsResultSet.getInt("GXID")
+                        L.e("call: login -> $GXID")
+                        result = GXID
+                    } else {
+                        L.e("call: login -> 无数据")
+                        result = -10_000
+                    }
+                })
+
+        return result
     }
 }
