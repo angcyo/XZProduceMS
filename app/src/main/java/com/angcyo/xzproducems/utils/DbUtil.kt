@@ -49,9 +49,9 @@ object DbUtil {
         System.out.println("test2 ok...2 $execute $WARNMEMO")
     }
 
+    /**登录*/
     fun login(name: String, pw: String): Int {
         var result: Int = 0
-
         Jtds.prepareCall_set("UP_GET_USERPOWER", 2,
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("USERID", name)
@@ -65,6 +65,39 @@ object DbUtil {
                     } else {
                         L.e("call: login -> 无数据")
                         result = -10_000
+                    }
+                })
+
+        return result
+    }
+
+    /**订单完工数量*/
+    fun UP_WARN_QTY(): String {
+        var result: String = "0"
+        Jtds.prepareCall_set("UP_WARN_QTY", 0, null,
+                { jtdsResultSet ->
+                    if (jtdsResultSet.next()) {
+                        val WARNQTY = jtdsResultSet.getString("WARNQTY")
+                        L.e("call: UP_WARN_QTY -> $WARNQTY")
+                        result = WARNQTY
+                    } else {
+                        L.e("call: UP_WARN_QTY -> 无数据")
+                        result = "0"
+                    }
+                })
+
+        return result
+    }
+
+    /**订单完工提醒*/
+    fun UP_WARN_PUR01(): MutableList<String> {
+        var result: MutableList<String> = mutableListOf()
+        Jtds.prepareCall_set("UP_WARN_PUR01", 0, null,
+                { jtdsResultSet ->
+                    while (jtdsResultSet.next()) {
+                        val WARNQTY = jtdsResultSet.getString("WARNMEMO")
+                        L.e("call: UP_WARN_PUR01 -> $WARNQTY")
+                        result.add(WARNQTY)
                     }
                 })
 

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/base_xhdpi">
+
+        <com.angcyo.uiview.widget.RTextView
+            android:id="@+id/text_view"
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="@dimen/base_xhdpi"
+            android:tag="订单总数:%1$s"/>
+
+        <!-- <com.angcyo.uiview.widget.RTextView
+             android:id="@+id/detail_text_view"
+             style="@style/BaseMainTextStyle"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"/>-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:background="@color/base_dark_red_tran">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.angcyo.uiview.widget.ExEditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="输入单号,查询状况"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:paddingEnd="@dimen/base_45dpi"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/scan_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="5dp"
+                android:background="@drawable/base_bg2_selector"
+                android:padding="@dimen/base_xhdpi"
+                android:src="@drawable/base_san_ico"
+                android:tint="@color/base_gray"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</FrameLayout>

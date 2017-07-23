@@ -29,7 +29,7 @@ class LoginUIView : BaseItemUIView() {
         return super.getTitleBar()
     }
 
-    override fun getItemLayoutId(viewType: Int): Int {
+    override fun getItemLayoutId(position: Int): Int {
         return R.layout.view_login_layout
     }
 
@@ -74,8 +74,10 @@ class LoginUIView : BaseItemUIView() {
                                 } else if (bean == 0) {
                                     T_.error("账户密码不匹配")
                                 } else if (bean > 0) {
-                                    T_.info("登录成功")
+                                    //T_.info("登录成功")
                                     Hawk.put<String>("last_name", nameView.string())
+
+                                    replaceIView(MainUIView())
                                 } else {
                                     T_.error("登录失败")
                                 }
