@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/base_xhdpi"
-            android:tag="订单总数:%1$s"/>
+            android:tag="已完工订单总数:%1$s"/>
 
         <!-- <com.angcyo.uiview.widget.RTextView
              android:id="@+id/detail_text_view"
