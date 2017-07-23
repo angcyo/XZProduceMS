@@ -42,6 +42,9 @@ class WarnListUIView : BaseRecycleUIView<String, String, String>() {
             override fun onEnd(isError: Boolean, isNoNetwork: Boolean, e: RException?) {
                 super.onEnd(isError, isNoNetwork, e)
                 hideLoadView()
+                if (isError) {
+                    showNonetLayout()
+                }
             }
 
             override fun onSucceed(bean: MutableList<String>?) {
