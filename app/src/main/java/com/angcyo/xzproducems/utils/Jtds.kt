@@ -1,5 +1,6 @@
 package com.angcyo.xzproducems.utils
 
+import com.angcyo.library.utils.L
 import com.angcyo.uiview.utils.RUtils
 import net.sourceforge.jtds.jdbc.JtdsCallableStatement
 import net.sourceforge.jtds.jdbc.JtdsConnection
@@ -85,5 +86,38 @@ object Jtds {
         } finally {
             connection?.close()
         }
+    }
+
+    /**执行存储过程, 插入/更新数据*/
+    fun prepareCall_update(call: String, paramCount: Int,
+                           param: ((JtdsCallableStatement) -> Unit)?): Boolean {
+        var connection: JtdsConnection? = null
+        var result = false
+        try {
+            connection = Jtds.connectDB()
+
+            val paramBuild = StringBuilder()
+            for (i in 0..paramCount - 1) {
+                paramBuild.append("?")
+                paramBuild.append(",")
+            }
+
+            val jtdsCallableStatement = connection.prepareCall("{call $call(${RUtils.safe(paramBuild)})}") as JtdsCallableStatement
+            if (paramCount > 0) {
+                param?.invoke(jtdsCallableStatement)
+            }
+
+//            result = jtdsCallableStatement.execute()
+            val update = jtdsCallableStatement.executeUpdate()
+            result = update != 0
+            L.e("call: prepareCall_update -> $result $update")
+
+            connection.close()
+        } catch(e: Exception) {
+            e.printStackTrace()
+        } finally {
+            connection?.close()
+        }
+        return result
     }
 }

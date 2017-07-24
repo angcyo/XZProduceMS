@@ -15,6 +15,7 @@ import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
 import com.angcyo.xzproducems.BuildConfig
+import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseItemUIView
 import com.angcyo.xzproducems.bean.LoginBean
@@ -32,6 +33,11 @@ class LoginUIView : BaseItemUIView() {
 
     override fun getItemLayoutId(position: Int): Int {
         return R.layout.view_login_layout
+    }
+
+    override fun initOnShowContentLayout() {
+        super.initOnShowContentLayout()
+        LoginControl.userid = ""
     }
 
     override fun createItems(items: MutableList<SingleItem>?) {
@@ -52,6 +58,10 @@ class LoginUIView : BaseItemUIView() {
 
                 holder.delayClick(R.id.login_button, object : DelayClick() {
                     override fun onRClick(view: View?) {
+                        if (BuildConfig.DEBUG) {
+                            DbUtil.demo()
+                        }
+
                         if (nameView.checkEmpty() || pwView.checkEmpty()) {
                             return
                         }
@@ -77,7 +87,7 @@ class LoginUIView : BaseItemUIView() {
                                 } else if (bean.GXID > 0) {
                                     //T_.info("登录成功")
                                     Hawk.put<String>("last_name", nameView.string())
-
+                                    LoginControl.userid = nameView.string()
                                     replaceIView(MainUIView(bean))
                                 } else {
                                     T_.error("登录失败")
