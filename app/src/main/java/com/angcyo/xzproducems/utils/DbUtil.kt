@@ -196,56 +196,56 @@ object DbUtil {
                 },
                 { jtdsResultSet ->
                     while (jtdsResultSet.next()) {
-                        for (i in 1..30) {
-                            L.e("call: UP_GET_DGID -> $i ${jtdsResultSet.getString(i)}")
-                        }
-//                        val bean = OrderBean(
-//                                jtdsResultSet.getString("FVID"),
-//                                jtdsResultSet.getString("DGID"),
-//                                jtdsResultSet.getString("GXID"),
-//                                jtdsResultSet.getString("PID"),
-//                                jtdsResultSet.getString("PNAME1"),
-//                                jtdsResultSet.getString("PNAME2"),
-//                                jtdsResultSet.getString("PNAME3"),
-//                                jtdsResultSet.getString("PNAME4"),
-//                                jtdsResultSet.getString("PNAME5"),
-//                                jtdsResultSet.getString("PNAME6"),
-//                                jtdsResultSet.getString("QTY1"),
-//                                jtdsResultSet.getString("QTY2"),
-//                                jtdsResultSet.getString("QTY3"),
-//                                jtdsResultSet.getString("QTY4"),
-//                                jtdsResultSet.getString("QTY5"),
-//                                jtdsResultSet.getString("QTY6"),
-//                                jtdsResultSet.getString("QTY7"),
-//                                jtdsResultSet.getString("DATE1"),
-//                                jtdsResultSet.getString("ADDDATE"),
-//                                jtdsResultSet.getString("USERID"),
-//                                jtdsResultSet.getString("USERNAME")
-//                        )
+//                        for (i in 1..30) {
+//                            L.e("call: UP_GET_DGID -> $i ${jtdsResultSet.getString(i)}")
+//                        }
                         val bean = OrderBean(
-                                jtdsResultSet.getString(1),
-                                jtdsResultSet.getString(2),
-                                jtdsResultSet.getString(3),
-                                jtdsResultSet.getString(4),
-                                jtdsResultSet.getString(5),
-                                jtdsResultSet.getString(6),
-                                jtdsResultSet.getString(7),
-                                jtdsResultSet.getString(8),
-                                jtdsResultSet.getString(9),
-                                jtdsResultSet.getString(10),
-                                jtdsResultSet.getString(11),
-                                jtdsResultSet.getString(12),
-                                jtdsResultSet.getString(13),
-                                jtdsResultSet.getString(14),
-                                jtdsResultSet.getString(15),
-                                jtdsResultSet.getString(16),
-                                jtdsResultSet.getString(17),
-                                jtdsResultSet.getString(18),
-                                jtdsResultSet.getString(19),
-                                jtdsResultSet.getString(20),
-                                jtdsResultSet.getString(1)
+                                jtdsResultSet.getString("FVID"),
+                                jtdsResultSet.getString("DGID"),
+                                jtdsResultSet.getString("GXID"),
+                                jtdsResultSet.getString("PID"),
+                                jtdsResultSet.getString("PNAME1"),
+                                jtdsResultSet.getString("PNAME2"),
+                                jtdsResultSet.getString("PNAME3"),
+                                jtdsResultSet.getString("PNAME4"),
+                                jtdsResultSet.getString("PNAME5"),
+                                jtdsResultSet.getString("PNAME6"),
+                                jtdsResultSet.getString("QTY1"),
+                                jtdsResultSet.getString("QTY2"),
+                                jtdsResultSet.getString("QTY3"),
+                                jtdsResultSet.getString("QTY4"),
+                                jtdsResultSet.getString("QTY5"),
+                                jtdsResultSet.getString("QTY6"),
+                                jtdsResultSet.getString("QTY7"),
+                                jtdsResultSet.getString("DATE1"),
+                                jtdsResultSet.getString("ADDDATE"),
+                                jtdsResultSet.getString("USERID"),
+                                jtdsResultSet.getString("USERNAME")
                         )
-                        L.e("call: UP_GET_DGID -> $bean")
+//                        val bean = OrderBean(
+//                                jtdsResultSet.getString(1),
+//                                jtdsResultSet.getString(2),
+//                                jtdsResultSet.getString(3),
+//                                jtdsResultSet.getString(4),
+//                                jtdsResultSet.getString(5),
+//                                jtdsResultSet.getString(6),
+//                                jtdsResultSet.getString(7),
+//                                jtdsResultSet.getString(8),
+//                                jtdsResultSet.getString(9),
+//                                jtdsResultSet.getString(10),
+//                                jtdsResultSet.getString(11),
+//                                jtdsResultSet.getString(12),
+//                                jtdsResultSet.getString(13),
+//                                jtdsResultSet.getString(14),
+//                                jtdsResultSet.getString(15),
+//                                jtdsResultSet.getString(16),
+//                                jtdsResultSet.getString(17),
+//                                jtdsResultSet.getString(18),
+//                                jtdsResultSet.getString(19),
+//                                jtdsResultSet.getString(20),
+//                                jtdsResultSet.getString(1)
+//                        )
+                        //L.e("call: UP_GET_DGID -> $bean")
                         result.add(bean)
                     }
                 })
