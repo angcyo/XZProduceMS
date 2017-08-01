@@ -29,7 +29,7 @@
             android:gravity="center"
             android:paddingBottom="@dimen/base_xhdpi"
             android:paddingTop="@dimen/base_xhdpi"
-            android:text="添加订单"/>
+            android:text="生产汇报"/>
 
         <com.angcyo.uiview.widget.RTextView
             android:layout_width="0dp"

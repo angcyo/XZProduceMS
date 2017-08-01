@@ -40,7 +40,7 @@
                     android:id="@+id/edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="输入单号,查询状况"
+                    android:hint="请输入单号"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:paddingEnd="@dimen/base_45dpi"

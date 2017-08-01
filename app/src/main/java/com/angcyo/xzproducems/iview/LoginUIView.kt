@@ -11,6 +11,7 @@ import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
 import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
+import com.angcyo.uiview.utils.RUtils
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
@@ -60,6 +61,7 @@ class LoginUIView : BaseItemUIView() {
                     override fun onRClick(view: View?) {
                         if (BuildConfig.DEBUG) {
                             DbUtil.demo()
+                            L.e("call: demo -> ${RUtils.getScreenInches(mActivity)}")
                         }
 
                         if (nameView.checkEmpty() || pwView.checkEmpty()) {

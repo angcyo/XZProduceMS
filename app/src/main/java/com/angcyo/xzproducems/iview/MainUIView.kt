@@ -122,7 +122,22 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 //添加订单
                 holder.delayClick(R.id.add_order_button, object : DelayClick() {
                     override fun onRClick(view: View?) {
-                        startIView(AddOrderUIView())
+
+                        editText?.let {
+                            if (it.isEmpty) {
+                                mActivity.checkPermissions(arrayOf(Manifest.permission.CAMERA)) { result ->
+                                    if (result) {
+                                        startIView(UIScanView { result ->
+                                            startIView(AddOrderUIView())
+                                        })
+                                    } else {
+                                        T_.error("需要摄像头权限.")
+                                    }
+                                }
+                            } else {
+                                startIView(AddOrderUIView())
+                            }
+                        }
                     }
                 })
             }
