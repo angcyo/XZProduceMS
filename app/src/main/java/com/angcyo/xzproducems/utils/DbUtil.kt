@@ -2,6 +2,7 @@ package com.angcyo.xzproducems.utils
 
 import com.angcyo.library.utils.L
 import com.angcyo.xzproducems.bean.LoginBean
+import com.angcyo.xzproducems.bean.OrderBean
 import com.angcyo.xzproducems.bean.QueryBean
 import net.sourceforge.jtds.jdbc.JtdsResultSet
 
@@ -182,6 +183,47 @@ object DbUtil {
                     jtdsCallableStatement.setInt("@QTY7", QTY7.toInt())
                     jtdsCallableStatement.setString("@USERID", USERID)
                 })
+        return result
+    }
+
+    /**取订单数据*/
+    fun UP_GET_DGID(DGID: String /*订单号*/, GXID: Int /*工序*/): MutableList<OrderBean> {
+        var result: MutableList<OrderBean> = mutableListOf()
+        Jtds.prepareCall_set("UP_GET_DGID", 2,
+                { jtdsCallableStatement ->
+                    jtdsCallableStatement.setString("DGID", DGID)
+                    jtdsCallableStatement.setInt("GXID", GXID)
+                },
+                { jtdsResultSet ->
+                    while (jtdsResultSet.next()) {
+                        val bean = OrderBean(
+                                jtdsResultSet.getString("FVID"),
+                                jtdsResultSet.getString("DGID"),
+                                jtdsResultSet.getString("GXID"),
+                                jtdsResultSet.getString("PID"),
+                                jtdsResultSet.getString("PNAME1"),
+                                jtdsResultSet.getString("PNAME2"),
+                                jtdsResultSet.getString("PNAME3"),
+                                jtdsResultSet.getString("PNAME4"),
+                                jtdsResultSet.getString("PNAME5"),
+                                jtdsResultSet.getString("PNAME6"),
+                                jtdsResultSet.getString("QTY1"),
+                                jtdsResultSet.getString("QTY2"),
+                                jtdsResultSet.getString("QTY3"),
+                                jtdsResultSet.getString("QTY4"),
+                                jtdsResultSet.getString("QTY5"),
+                                jtdsResultSet.getString("QTY6"),
+                                jtdsResultSet.getString("QTY7"),
+                                jtdsResultSet.getString("DATE1"),
+                                jtdsResultSet.getString("ADDDATE"),
+                                jtdsResultSet.getString("USERID"),
+                                jtdsResultSet.getString("USERNAME")
+                        )
+                        L.e("call: UP_GET_DGID -> $bean")
+                        result.add(bean)
+                    }
+                })
+
         return result
     }
 

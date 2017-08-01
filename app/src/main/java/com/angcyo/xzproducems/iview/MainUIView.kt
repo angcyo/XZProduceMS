@@ -15,9 +15,11 @@ import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
+import com.angcyo.xzproducems.BuildConfig
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseItemUIView
 import com.angcyo.xzproducems.bean.LoginBean
+import com.angcyo.xzproducems.bean.OrderBean
 import com.angcyo.xzproducems.utils.DbUtil
 
 /**
@@ -52,6 +54,10 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
         items?.add(object : SingleItem() {
             override fun onBindView(holder: RBaseViewHolder?, posInData: Int, dataBean: Item?) {
                 editText = holder?.v(R.id.edit_text)
+
+                if (BuildConfig.DEBUG) {
+                    editText?.setInputText("XK-17070308")
+                }
 
                 //数量
                 if (loginBean.IsModify == 1) {
@@ -122,26 +128,42 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 //添加订单
                 holder.delayClick(R.id.add_order_button, object : DelayClick() {
                     override fun onRClick(view: View?) {
-
-                        editText?.let {
-                            if (it.isEmpty) {
-                                mActivity.checkPermissions(arrayOf(Manifest.permission.CAMERA)) { result ->
-                                    if (result) {
-                                        startIView(UIScanView { result ->
-                                            startIView(AddOrderUIView())
-                                        })
-                                    } else {
-                                        T_.error("需要摄像头权限.")
-                                    }
-                                }
-                            } else {
-                                startIView(AddOrderUIView())
-                            }
-                        }
+                        demo(editText!!.string(), 1)
+//                        editText?.let {
+//                            if (it.isEmpty) {
+//                                mActivity.checkPermissions(arrayOf(Manifest.permission.CAMERA)) { result ->
+//                                    if (result) {
+//                                        startIView(UIScanView { result ->
+//                                            startIView(AddOrderUIView())
+//                                        })
+//                                    } else {
+//                                        T_.error("需要摄像头权限.")
+//                                    }
+//                                }
+//                            } else {
+//                                startIView(AddOrderUIView())
+//                            }
+//                        }
                     }
                 })
             }
         })
 
+    }
+
+    fun demo(DGID: String /*订单号*/, GXID: Int /*工序*/) {
+        Rx.base(object : RFunc<MutableList<OrderBean>>() {
+            override fun onFuncCall(): MutableList<OrderBean> {
+                return DbUtil.UP_GET_DGID(DGID, GXID)
+            }
+        }, object : RSubscriber<MutableList<OrderBean>>() {
+            override fun onStart() {
+
+            }
+
+            override fun onSucceed(bean: MutableList<OrderBean>) {
+                super.onSucceed(bean)
+            }
+        })
     }
 }
