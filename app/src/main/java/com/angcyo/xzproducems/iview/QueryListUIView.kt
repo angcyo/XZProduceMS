@@ -75,7 +75,7 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                         2 -> tipView.text = "物料编码:"
                         3 -> tipView.text = "名称:"
                         4 -> tipView.text = "规格:"
-                        5 -> tipView.text = "PNAME3:"
+                        5 -> tipView.text = "型号:"
                         6 -> tipView.text = "PNAME4:"
                         7 -> tipView.text = "PNAME5:"
                         8 -> tipView.text = "PNAME6:"
@@ -122,6 +122,17 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                             14 -> it.text = if (dataBean.QTY6.isNullOrEmpty()) "空" else dataBean.QTY6
                             15 -> it.text = if (dataBean.QTY7.isNullOrEmpty()) "空" else dataBean.QTY7
                             16 -> it.text = if (dataBean.QTY8.isNullOrEmpty()) "空" else dataBean.QTY8
+                        }
+                    }
+                }
+
+                for (i in 0..16) {
+                    val tipView: View? = holder.tag("tipView$i")
+                    val contentView: View? = holder.tag("contentView$i")
+                    when (i) {
+                        6, 7, 8 -> {
+                            tipView?.visibility = View.GONE
+                            contentView?.visibility = View.GONE
                         }
                     }
                 }
