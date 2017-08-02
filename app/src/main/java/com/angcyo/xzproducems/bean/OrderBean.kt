@@ -15,8 +15,8 @@ data class OrderBean(
         val PNAME5: String?, //
         val PNAME6: String?, //
         val QTY1: String?, //--订单投产数量，
-        val QTY2: String?, //--已完工数量，
-        val QTY3: String?, //--返工数量，
+        var QTY2: String?, //--已完工数量，
+        var QTY3: String?, //--返工数量，
         val QTY4: String?, //--当前投产数量即为还有多少未生产数量，
         val QTY5: String?, //--订单数量，
         val QTY6: String?, //--

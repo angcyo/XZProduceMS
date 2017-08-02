@@ -1,10 +1,12 @@
 package com.angcyo.xzproducems.iview
 
 import android.graphics.Color
+import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.angcyo.uiview.dialog.UIInputDialog
+import com.angcyo.uiview.dialog.UILoading
 import com.angcyo.uiview.net.RException
 import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
@@ -12,7 +14,11 @@ import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
+import com.angcyo.uiview.utils.T_
+import com.angcyo.uiview.widget.Button
+import com.angcyo.uiview.widget.ExEditText
 import com.angcyo.uiview.widget.RTextView
+import com.angcyo.uiview.widget.TitleBarLayout
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseRecycleUIView
 import com.angcyo.xzproducems.bean.OrderBean
@@ -79,19 +85,19 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                         7 -> tipView.text = "PNAME4:"
                         8 -> tipView.text = "PNAME5:"
                         9 -> tipView.text = "PNAME6:"
-                        10 -> {
-                            tipView.also {
-                                it.text = "订单投产数量(点击可修改):"
-                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
-                            }
-                        }
+                        10 -> tipView.text = "订单投产数量:"
                         11 -> {
                             tipView.also {
                                 it.text = "已完工数量(点击可修改):"
                                 it.setTextColor(ResUtil.getThemeColorAccent(mContext))
                             }
                         }
-                        12 -> tipView.text = "返工数量:"
+                        12 -> {
+                            tipView.also {
+                                it.text = "返工数量(点击可修改):"
+                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
+                            }
+                        }
                         13 -> tipView.text = "当前投产数量:"
                         14 -> tipView.text = "订单数量:"
                         15 -> tipView.text = "QTY6:"
@@ -145,16 +151,62 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                     }
                 }
 
-                val itemLayout10: View? = holder.tag("itemLayout10")
                 val itemLayout11: View? = holder.tag("itemLayout11")
-
-                itemLayout10?.setOnClickListener {
-                    mParentILayout.startIView(UIInputDialog())
-                }
+                val itemLayout12: View? = holder.tag("itemLayout12")
 
                 itemLayout11?.setOnClickListener {
-                    mParentILayout.startIView(UIInputDialog())
+                    mParentILayout.startIView(UIInputDialog().apply {
+                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+
+                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+                                                           titleBarLayout: TitleBarLayout?,
+                                                           textInputLayout: TextInputLayout?,
+                                                           editText: ExEditText?,
+                                                           okButton: Button?) {
+                                editText?.apply {
+                                    hint = "请输入完工数量"
+                                    setIsPhone(true, 20)
+                                }
+
+                                okButton?.apply {
+                                    setOnClickListener {
+                                        if (!editText!!.checkEmpty()) {
+                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    })
                 }
+
+                itemLayout12?.setOnClickListener {
+                    mParentILayout.startIView(UIInputDialog().apply {
+                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+
+                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+                                                           titleBarLayout: TitleBarLayout?,
+                                                           textInputLayout: TextInputLayout?,
+                                                           editText: ExEditText?,
+                                                           okButton: Button?) {
+                                editText?.apply {
+                                    hint = "请输入返工数量"
+                                    setIsPhone(true, 20)
+                                }
+
+                                okButton?.apply {
+                                    setOnClickListener {
+                                        if (!editText!!.checkEmpty()) {
+                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+
             }
         }
     }
@@ -175,6 +227,43 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
             override fun onSucceed(bean: MutableList<OrderBean>) {
                 super.onSucceed(bean)
                 onUILoadFinish(bean)
+            }
+        })
+    }
+
+    private fun updateData(dialog: UIInputDialog,
+                           position: Int,
+                           orderBean: OrderBean,
+                           QTY2: String?, QTY3: String?) {
+        Rx.base(object : RFunc<Boolean>() {
+            override fun onFuncCall(): Boolean {
+                return DbUtil.UP_MODI_PUR01_D1(orderBean, QTY2, QTY3)
+            }
+        }, object : RSubscriber<Boolean>() {
+
+            override fun onStart() {
+                super.onStart()
+                UILoading.show2(mILayout).setLoadingTipText("操作中...")
+            }
+
+            override fun onEnd(isError: Boolean, isNoNetwork: Boolean, e: RException?) {
+                super.onEnd(isError, isNoNetwork, e)
+                UILoading.hide()
+            }
+
+            override fun onSucceed(bean: Boolean) {
+                super.onSucceed(bean)
+                if (bean) {
+                    dialog.finishDialog()
+
+                    orderBean.QTY2 = QTY2
+                    orderBean.QTY3 = QTY3
+
+                    mExBaseAdapter.notifyItemChanged(position)
+                    T_.ok("修改成功.")
+                } else {
+                    T_.error("修改失败.")
+                }
             }
         })
     }

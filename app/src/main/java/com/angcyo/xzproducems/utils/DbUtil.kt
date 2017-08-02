@@ -144,6 +144,7 @@ object DbUtil {
     }
 
     /**新增修改订单数据*/
+    @Deprecated("数据结构老了")
     fun UP_MODI_PUR01_D1(
             DGID: String, //--订单号
             GXID: String, //--工序
@@ -182,6 +183,49 @@ object DbUtil {
                     jtdsCallableStatement.setInt("@QTY6", QTY6.toInt())
                     jtdsCallableStatement.setInt("@QTY7", QTY7.toInt())
                     jtdsCallableStatement.setString("@USERID", USERID)
+                })
+        return result
+    }
+
+    /*    @FVID INT,--原订单表明细ID号
+        @DGID NVARCHAR(20),--订单号
+        @GXID INT,--工序
+        @PID NVARCHAR(20),--物料编码
+        @PNAME1 NVARCHAR(250),--名称
+        @PNAME2 NVARCHAR(250),--规格
+        @PNAME3 NVARCHAR(250),
+        @PNAME4 NVARCHAR(250),
+        @PNAME5 NVARCHAR(250),
+        @PNAME6 NVARCHAR(250),
+        @QTY1 INT,--订单投产数量
+        @QTY2 INT,--已完工数量
+        @QTY3 INT,--返工数量
+        @QTY4 INT,--当前投产数量即为还有多少未生产数量
+        @QTY5 INT,--订单数量
+        @QTY6 INT,
+        @QTY7 INT,
+        @USERID NVARCHAR(20)--更新人*/
+    fun UP_MODI_PUR01_D1(orderBean: OrderBean, QTY2: String?, QTY3: String?): Boolean {
+        var result = Jtds.prepareCall_update("UP_MODI_PUR01_D1", 18,
+                { jtdsCallableStatement ->
+                    jtdsCallableStatement.setString("@FVID", orderBean.FVID)
+                    jtdsCallableStatement.setString("@DGID", orderBean.DGID)
+                    jtdsCallableStatement.setString("@GXID", orderBean.GXID)
+                    jtdsCallableStatement.setString("@PID", orderBean.PID)
+                    jtdsCallableStatement.setString("@PNAME1", orderBean.PNAME1)
+                    jtdsCallableStatement.setString("@PNAME2", orderBean.PNAME2)
+                    jtdsCallableStatement.setString("@PNAME3", orderBean.PNAME3)
+                    jtdsCallableStatement.setString("@PNAME4", orderBean.PNAME4)
+                    jtdsCallableStatement.setString("@PNAME5", orderBean.PNAME5)
+                    jtdsCallableStatement.setString("@PNAME6", orderBean.PNAME6)
+                    jtdsCallableStatement.setString("@QTY1", orderBean.QTY1)
+                    jtdsCallableStatement.setString("@QTY2", QTY2)
+                    jtdsCallableStatement.setString("@QTY3", QTY3)
+                    jtdsCallableStatement.setString("@QTY4", orderBean.QTY4)
+                    jtdsCallableStatement.setString("@QTY5", orderBean.QTY5)
+                    jtdsCallableStatement.setString("@QTY6", orderBean.QTY6)
+                    jtdsCallableStatement.setString("@QTY7", orderBean.QTY7)
+                    jtdsCallableStatement.setString("@USERID", orderBean.USERID)
                 })
         return result
     }
