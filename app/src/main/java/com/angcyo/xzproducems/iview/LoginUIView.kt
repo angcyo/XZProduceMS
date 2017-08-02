@@ -38,7 +38,7 @@ class LoginUIView : BaseItemUIView() {
 
     override fun initOnShowContentLayout() {
         super.initOnShowContentLayout()
-        LoginControl.userid = ""
+        LoginControl.reset()
     }
 
     override fun createItems(items: MutableList<SingleItem>?) {
@@ -90,6 +90,7 @@ class LoginUIView : BaseItemUIView() {
                                     //T_.info("登录成功")
                                     Hawk.put<String>("last_name", nameView.string())
                                     LoginControl.userid = nameView.string()
+                                    LoginControl.loginBean = bean
                                     replaceIView(MainUIView(bean))
                                 } else {
                                     T_.error("登录失败")

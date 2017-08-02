@@ -12,7 +12,7 @@ def osName() {
 android {
     signingConfigs {
         angcyo {
-            keyAlias 'angcyo'
+            keyAlias 'app'
             keyPassword 'angcyo'
             storeFile file('../RLibrary/angcyo.jks')
             storePassword 'angcyo'

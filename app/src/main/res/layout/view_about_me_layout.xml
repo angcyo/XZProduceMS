@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.angcyo.uiview.widget.RTextView
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="向佐软件工作室"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <com.angcyo.uiview.widget.RTextView
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="生产管理系统 Ver:2017 Beta 1.0"/>
+
+        <com.angcyo.uiview.widget.RTextView
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="开发设计: 向佐成"/>
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="2dp"
+            android:layout_margin="@dimen/base_xxhdpi"
+            android:background="@color/default_base_line"/>
+
+        <com.angcyo.uiview.widget.RTextView
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="版权所有 1999-2017 向佐软件工作室"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <com.angcyo.uiview.widget.RTextView
+            android:id="@+id/email_view"
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="技术支持邮箱: xcz102@163.com"
+            android:textColor="@color/base_red_d85940"/>
+
+        <com.angcyo.uiview.widget.RTextView
+            android:id="@+id/phone_view"
+            style="@style/BaseMainTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/base_xhdpi"
+            android:text="技术支持电话: 133184022322"
+            android:textColor="@color/base_red_d85940"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>

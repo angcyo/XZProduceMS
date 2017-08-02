@@ -21,6 +21,16 @@ import com.angcyo.xzproducems.utils.DbUtil
  * Created by angcyo on 2017-07-24.
  */
 class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, String>() {
+
+    override fun getTitleString(): String {
+        return "订单跟踪查询"
+    }
+
+    override fun onBackPressed(): Boolean {
+        replaceIView(ScanUIView().apply { toOrderList = false })
+        return false
+    }
+
     override fun createAdapter(): RExBaseAdapter<String, QueryBean, String> {
         return object : RExBaseAdapter<String, QueryBean, String>(mActivity) {
             override fun getItemLayoutId(viewType: Int): Int {
@@ -55,8 +65,8 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                     val contentView = RTextView(mActivity, null, R.style.BaseMainTextStyle)
                     contentView.apply {
                         tag = "contentView$i"
-                        textSize = 12f
-                        setPadding(padding, 0, padding, 0)
+                        textSize = 16f
+                        setPadding(padding, 0, padding, padding / 2)
                     }
 
                     when (i) {

@@ -58,6 +58,44 @@
                 android:src="@drawable/base_san_ico"
                 android:tint="@color/base_gray"/>
         </FrameLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/base_xhdpi">
+
+            <com.angcyo.uiview.widget.ExEditText
+                android:id="@+id/id_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入工序"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="1"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/radio_button1"
+            android:paddingBottom="@dimen/base_xhdpi"
+            android:paddingTop="@dimen/base_xhdpi">
+
+            <RadioButton
+                android:id="@+id/radio_button1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="生产汇报"/>
+
+            <RadioButton
+                android:id="@+id/radio_button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_xhdpi"
+                android:text="查询订单状况"/>
+
+        </RadioGroup>
     </LinearLayout>
 
 </FrameLayout>

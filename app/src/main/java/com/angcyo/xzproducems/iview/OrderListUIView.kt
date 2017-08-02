@@ -25,6 +25,17 @@ import com.angcyo.xzproducems.utils.DbUtil
  */
 class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleUIView<String, OrderBean, String>() {
 
+    override fun onBackPressed(): Boolean {
+        replaceIView(ScanUIView().apply {
+            toOrderList = true
+        })
+        return false
+    }
+
+    override fun getTitleString(): String {
+        return "生产汇报"
+    }
+
     override fun createAdapter(): RExBaseAdapter<String, OrderBean, String> {
         return object : RExBaseAdapter<String, OrderBean, String>(mActivity) {
             override fun getItemLayoutId(viewType: Int): Int {
@@ -77,7 +88,7 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                         3 -> tipView.text = "物料编码:"
                         4 -> tipView.text = "名称:"
                         5 -> tipView.text = "规格:"
-                        6 -> tipView.text = "PNAME3:"
+                        6 -> tipView.text = "型号:"
                         7 -> tipView.text = "PNAME4:"
                         8 -> tipView.text = "PNAME5:"
                         9 -> tipView.text = "PNAME6:"
@@ -146,64 +157,80 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                         }
                     }
                 }
+                for (i in 0..20) {
+                    val itemLayout: View? = holder.tag("itemLayout$i")
+                    when (i) {
+                        0, 7, 8, 9, 10, 15, 16, 18, 19 -> itemLayout?.visibility = View.GONE
+                    }
+                }
 
                 val itemLayout11: View? = holder.tag("itemLayout11")
                 val itemLayout12: View? = holder.tag("itemLayout12")
 
-                itemLayout11?.setOnClickListener {
-                    startIView(InputDialog(dataBean))
-//                    mParentILayout.startIView(UIInputDialog().apply {
-//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-//
-//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-//                                                           titleBarLayout: TitleBarLayout?,
-//                                                           textInputLayout: TextInputLayout?,
-//                                                           editText: ExEditText?,
-//                                                           okButton: Button?) {
-//                                editText?.apply {
-//                                    hint = "请输入完工数量"
-//                                    setIsPhone(true, 20)
-//                                }
-//
-//                                okButton?.apply {
-//                                    setOnClickListener {
-//                                        if (!editText!!.checkEmpty()) {
-//                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
-//                                        }
-//                                    }
-//                                }
-//                            }
-//
-//                        }
-//                    })
+                val clickListener = View.OnClickListener {
+                    if (dataBean.QTY4?.toInt()!! <= 0) {
+                        T_.error("没有投产数量.")
+                    } else {
+                        startIView(InputDialog(dataBean))
+                    }
                 }
 
-                itemLayout12?.setOnClickListener {
-                    startIView(InputDialog(dataBean))
-//                    mParentILayout.startIView(UIInputDialog().apply {
-//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-//
-//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-//                                                           titleBarLayout: TitleBarLayout?,
-//                                                           textInputLayout: TextInputLayout?,
-//                                                           editText: ExEditText?,
-//                                                           okButton: Button?) {
-//                                editText?.apply {
-//                                    hint = "请输入返工数量"
-//                                    setIsPhone(true, 20)
-//                                }
-//
-//                                okButton?.apply {
-//                                    setOnClickListener {
-//                                        if (!editText!!.checkEmpty()) {
-//                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    })
-                }
+                itemLayout11?.setOnClickListener(clickListener)
+                itemLayout12?.setOnClickListener(clickListener)
+
+//                itemLayout11?.setOnClickListener {
+////                    mParentILayout.startIView(UIInputDialog().apply {
+////                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+////
+////                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+////                                                           titleBarLayout: TitleBarLayout?,
+////                                                           textInputLayout: TextInputLayout?,
+////                                                           editText: ExEditText?,
+////                                                           okButton: Button?) {
+////                                editText?.apply {
+////                                    hint = "请输入完工数量"
+////                                    setIsPhone(true, 20)
+////                                }
+////
+////                                okButton?.apply {
+////                                    setOnClickListener {
+////                                        if (!editText!!.checkEmpty()) {
+////                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
+////                                        }
+////                                    }
+////                                }
+////                            }
+////
+////                        }
+////                    })
+//                }
+
+//                itemLayout12?.setOnClickListener {
+//                    startIView(InputDialog(dataBean))
+////                    mParentILayout.startIView(UIInputDialog().apply {
+////                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+////
+////                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+////                                                           titleBarLayout: TitleBarLayout?,
+////                                                           textInputLayout: TextInputLayout?,
+////                                                           editText: ExEditText?,
+////                                                           okButton: Button?) {
+////                                editText?.apply {
+////                                    hint = "请输入返工数量"
+////                                    setIsPhone(true, 20)
+////                                }
+////
+////                                okButton?.apply {
+////                                    setOnClickListener {
+////                                        if (!editText!!.checkEmpty()) {
+////                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
+////                                        }
+////                                    }
+////                                }
+////                            }
+////                        }
+////                    })
+//                }
 
             }
         }

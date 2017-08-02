@@ -47,6 +47,8 @@ class InputDialog(val orderBean: OrderBean) : UIInputDialog() {
         okButton.setOnClickListener {
             if (editText1.checkEmpty() || editText2.checkEmpty()) {
 
+            } else if ((editText1.string().toInt() + editText2.string().toInt()) > orderBean.QTY4!!.toInt()) {
+
             } else {
                 Rx.base(object : RFunc<Boolean>() {
                     override fun onFuncCall(): Boolean {
