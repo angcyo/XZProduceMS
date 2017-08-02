@@ -144,8 +144,8 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                             8 -> it.text = if (dataBean.PNAME5.isNullOrEmpty()) "空" else dataBean.PNAME5
                             9 -> it.text = if (dataBean.PNAME6.isNullOrEmpty()) "空" else dataBean.PNAME6
                             10 -> it.text = if (dataBean.QTY1.isNullOrEmpty()) "空" else dataBean.QTY1
-                            11 -> it.text = if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
-                            12 -> it.text = if (dataBean.QTY3.isNullOrEmpty()) "空" else dataBean.QTY3
+                            11 -> it.text = 0.toString() //if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
+                            12 -> it.text = 0.toString() //if (dataBean.QTY3.isNullOrEmpty()) "空" else dataBean.QTY3
                             13 -> it.text = if (dataBean.QTY4.isNullOrEmpty()) "空" else dataBean.QTY4
                             14 -> it.text = if (dataBean.QTY5.isNullOrEmpty()) "空" else dataBean.QTY5
                             15 -> it.text = if (dataBean.QTY6.isNullOrEmpty()) "空" else dataBean.QTY6
