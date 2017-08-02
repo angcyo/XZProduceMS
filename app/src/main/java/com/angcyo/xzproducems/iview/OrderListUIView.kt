@@ -1,7 +1,6 @@
 package com.angcyo.xzproducems.iview
 
 import android.graphics.Color
-import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -15,10 +14,7 @@ import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
 import com.angcyo.uiview.utils.T_
-import com.angcyo.uiview.widget.Button
-import com.angcyo.uiview.widget.ExEditText
 import com.angcyo.uiview.widget.RTextView
-import com.angcyo.uiview.widget.TitleBarLayout
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseRecycleUIView
 import com.angcyo.xzproducems.bean.OrderBean
@@ -155,56 +151,58 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                 val itemLayout12: View? = holder.tag("itemLayout12")
 
                 itemLayout11?.setOnClickListener {
-                    mParentILayout.startIView(UIInputDialog().apply {
-                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-
-                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-                                                           titleBarLayout: TitleBarLayout?,
-                                                           textInputLayout: TextInputLayout?,
-                                                           editText: ExEditText?,
-                                                           okButton: Button?) {
-                                editText?.apply {
-                                    hint = "请输入完工数量"
-                                    setIsPhone(true, 20)
-                                }
-
-                                okButton?.apply {
-                                    setOnClickListener {
-                                        if (!editText!!.checkEmpty()) {
-                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
-                    })
+                    startIView(InputDialog(dataBean))
+//                    mParentILayout.startIView(UIInputDialog().apply {
+//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+//
+//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+//                                                           titleBarLayout: TitleBarLayout?,
+//                                                           textInputLayout: TextInputLayout?,
+//                                                           editText: ExEditText?,
+//                                                           okButton: Button?) {
+//                                editText?.apply {
+//                                    hint = "请输入完工数量"
+//                                    setIsPhone(true, 20)
+//                                }
+//
+//                                okButton?.apply {
+//                                    setOnClickListener {
+//                                        if (!editText!!.checkEmpty()) {
+//                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                        }
+//                    })
                 }
 
                 itemLayout12?.setOnClickListener {
-                    mParentILayout.startIView(UIInputDialog().apply {
-                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-
-                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-                                                           titleBarLayout: TitleBarLayout?,
-                                                           textInputLayout: TextInputLayout?,
-                                                           editText: ExEditText?,
-                                                           okButton: Button?) {
-                                editText?.apply {
-                                    hint = "请输入返工数量"
-                                    setIsPhone(true, 20)
-                                }
-
-                                okButton?.apply {
-                                    setOnClickListener {
-                                        if (!editText!!.checkEmpty()) {
-                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    })
+                    startIView(InputDialog(dataBean))
+//                    mParentILayout.startIView(UIInputDialog().apply {
+//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+//
+//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+//                                                           titleBarLayout: TitleBarLayout?,
+//                                                           textInputLayout: TextInputLayout?,
+//                                                           editText: ExEditText?,
+//                                                           okButton: Button?) {
+//                                editText?.apply {
+//                                    hint = "请输入返工数量"
+//                                    setIsPhone(true, 20)
+//                                }
+//
+//                                okButton?.apply {
+//                                    setOnClickListener {
+//                                        if (!editText!!.checkEmpty()) {
+//                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    })
                 }
 
             }
