@@ -1,6 +1,10 @@
 package com.angcyo.xzproducems.iview
 
+import android.content.Context
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import com.angcyo.library.utils.L
 import com.angcyo.uiview.base.Item
 import com.angcyo.uiview.base.SingleItem
@@ -12,6 +16,7 @@ import com.angcyo.uiview.net.RSubscriber
 import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.utils.RUtils
+import com.angcyo.uiview.utils.ScreenUtil
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
@@ -28,6 +33,12 @@ import com.orhanobut.hawk.Hawk
  */
 class LoginUIView : BaseItemUIView() {
 
+    companion object {
+        fun isPad(context: Context): Boolean {
+            return RUtils.getScreenInches(context) > 6 && ScreenUtil.screenWidth > ScreenUtil.screenHeight
+        }
+    }
+
     override fun getTitleBar(): TitleBarPattern {
         return super.getTitleBar()
     }
@@ -39,6 +50,16 @@ class LoginUIView : BaseItemUIView() {
     override fun initOnShowContentLayout() {
         super.initOnShowContentLayout()
         LoginControl.reset()
+    }
+
+    override fun inflateBaseView(container: FrameLayout?, inflater: LayoutInflater?): View {
+        val baseView = super.inflateBaseView(container, inflater)
+        if (LoginUIView.isPad(mActivity)) {
+            mBaseContentLayout.layoutParams = FrameLayout.LayoutParams(LoginControl.PAD_WIDTH * density().toInt(), -1).apply {
+                gravity = Gravity.CENTER_HORIZONTAL
+            }
+        }
+        return baseView
     }
 
     override fun createItems(items: MutableList<SingleItem>?) {
@@ -91,7 +112,12 @@ class LoginUIView : BaseItemUIView() {
                                     Hawk.put<String>("last_name", nameView.string())
                                     LoginControl.userid = nameView.string()
                                     LoginControl.loginBean = bean
-                                    replaceIView(MainUIView(bean))
+                                    if (isPad(mActivity)) {
+                                        //T_.ok("平板")
+                                        replaceIView(MainUIView_PAD(bean).setEnableClipMode(ClipMode.CLIP_START))
+                                    } else {
+                                        replaceIView(MainUIView(bean).setEnableClipMode(ClipMode.CLIP_START))
+                                    }
                                 } else {
                                     T_.error("登录失败")
                                 }

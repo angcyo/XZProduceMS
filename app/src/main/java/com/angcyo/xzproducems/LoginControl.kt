@@ -14,4 +14,6 @@ object LoginControl {
         userid = ""
         loginBean = LoginBean(0, 1)
     }
+
+    val PAD_WIDTH = 400
 }
