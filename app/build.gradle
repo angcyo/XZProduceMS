@@ -24,8 +24,8 @@ android {
         applicationId "com.angcyo.xzproducems"
         minSdkVersion Integer.parseInt(rootProject.M_SDK)
         targetSdkVersion Integer.parseInt(rootProject.T_SDK)
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.2"
         multiDexEnabled true
 
         resValue "string", "build_time", getBuildTime()
