@@ -57,8 +57,9 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
 
     override fun getItemLayoutId(position: Int): Int {
         return when (position) {
-            1 -> R.layout.item_main_control_layout
-            else -> R.layout.view_main_layout
+            0 -> R.layout.item_main_top
+            1 -> R.layout.view_main_layout
+            else -> R.layout.item_main_control_layout
         }
     }
 
@@ -77,19 +78,9 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
     }
 
     override fun createItems(items: MutableList<SingleItem>?) {
-        //显示, 输入信息, 二维码
+        //显示
         items?.add(object : SingleItem() {
             override fun onBindView(holder: RBaseViewHolder?, posInData: Int, dataBean: Item?) {
-                editText = holder?.v(R.id.edit_text)
-
-                editText?.let {
-                    if (BuildConfig.DEBUG) {
-                        if (it.isEmpty) {
-                            it.setInputText("XK-17070329") //334
-                        }
-                    }
-                }
-
                 //数量
                 if (loginBean.IsModify == 1) {
                     //允许查看工时
@@ -122,7 +113,27 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 } else {
                     holder?.tv(R.id.text_view)?.tag = ""
                     holder?.tv(R.id.text_view)?.text = "没有权限查看."
+                }
+            }
+        })
 
+        // 输入信息, 二维码
+        items?.add(object : SingleItem() {
+            override fun onBindView(holder: RBaseViewHolder?, posInData: Int, dataBean: Item?) {
+                editText = holder?.v(R.id.edit_text)
+
+                editText?.let {
+                    if (BuildConfig.DEBUG) {
+                        if (it.isEmpty) {
+                            it.setInputText("XK-17070329") //334
+                        }
+                    }
+                }
+
+                //数量
+                if (loginBean.IsModify == 1) {
+                    //允许查看工时
+                } else {
                     holder?.v<View>(R.id.radio_button2)?.visibility = View.GONE
                 }
 
