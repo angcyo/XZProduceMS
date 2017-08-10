@@ -15,6 +15,7 @@ import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.widget.RTextView
+import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseRecycleUIView
 import com.angcyo.xzproducems.bean.OrderBean
@@ -23,7 +24,7 @@ import com.angcyo.xzproducems.utils.DbUtil
 /**
  * Created by angcyo on 2017-07-24.
  */
-class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleUIView<String, OrderBean, String>() {
+class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecycleUIView<String, OrderBean, String>() {
 
     override fun onBackPressed(): Boolean {
         replaceIView(ScanUIView().apply {
@@ -35,6 +36,8 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
     override fun getTitleString(): String {
         return "生产汇报"
     }
+
+    private val rowCount = 11
 
     override fun createAdapter(): RExBaseAdapter<String, OrderBean, String> {
         return object : RExBaseAdapter<String, OrderBean, String>(mActivity) {
@@ -60,7 +63,7 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                 }
                 rootLayout.addView(numTipView, LinearLayout.LayoutParams(-1, -2))
 
-                for (i in 0..20) {
+                for (i in 0..rowCount) {
                     val itemLayout = LinearLayout(mActivity)
                     itemLayout.apply {
                         orientation = LinearLayout.VERTICAL
@@ -82,37 +85,37 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                     }
 
                     when (i) {
-                        0 -> tipView.text = "原订单明细表ID号:"
-                        1 -> tipView.text = "订单号:"
-                        2 -> tipView.text = "工序:"
-                        3 -> tipView.text = "物料编码:"
-                        4 -> tipView.text = "名称:"
-                        5 -> tipView.text = "规格:"
-                        6 -> tipView.text = "型号:"
-                        7 -> tipView.text = "PNAME4:"
-                        8 -> tipView.text = "PNAME5:"
-                        9 -> tipView.text = "PNAME6:"
-                        10 -> tipView.text = "订单投产数量:"
-                        11 -> {
-                            tipView.also {
-                                it.text = "已完工数量(点击可修改):"
-                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
-                            }
-                        }
-                        12 -> {
-                            tipView.also {
-                                it.text = "返工数量(点击可修改):"
-                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
-                            }
-                        }
-                        13 -> tipView.text = "当前投产数量:"
-                        14 -> tipView.text = "订单数量:"
-                        15 -> tipView.text = "QTY6:"
-                        16 -> tipView.text = "QTY7:"
-                        17 -> tipView.text = "修改日期:"
-                        18 -> tipView.text = "增加日期:"
-                        19 -> tipView.text = "用户ID:"
-                        20 -> tipView.text = "用户名称:"
+//                        0 -> tipView.text = "原订单明细表ID号:"
+//                        1 -> tipView.text = "订单号:"
+//                        2 -> tipView.text = "工序:"
+                        0 -> tipView.text = "物料编码:"
+                        1 -> tipView.text = "名称:"
+                        2 -> tipView.text = "规格:"
+                        3 -> tipView.text = "型号:"
+                        4 -> tipView.text = "订单数量:"
+                        5 -> tipView.text = "投产数量:"
+                        6 -> tipView.text = "生产中数量:"
+                        7 -> tipView.text = "已完工数量:"
+//                        11 -> {
+//                            tipView.also {
+//                                it.text = "已完工数量(点击可修改):"
+//                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
+//                            }
+//                        }
+//                        12 -> {
+//                            tipView.also {
+//                                it.text = "返工数量(点击可修改):"
+//                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
+//                            }
+//                        }
+                        8 -> tipView.text = "备注:"
+                        9 -> tipView.text = "更新时间:"
+                        10 -> tipView.text = "更新人:"
+                        11 -> tipView.text = "上工序:"
+//                        17 -> tipView.text = "修改日期:"
+//                        18 -> tipView.text = "增加日期:"
+//                        19 -> tipView.text = "用户ID:"
+//                        20 -> tipView.text = "用户名称:"
                     }
 
                     itemLayout.addView(tipView, LinearLayout.LayoutParams(-1, -2))
@@ -129,22 +132,22 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                 val numTipView: RTextView? = holder.tag("numTipView")
                 numTipView?.text = "序号:${posInData + 1}"
 
-                for (i in 0..20) {
+                for (i in 0..rowCount) {
                     val contentView: RTextView? = holder.tag("contentView$i")
                     contentView?.let {
                         when (i) {
-                            0 -> it.text = if (dataBean.FVID.isNullOrEmpty()) "空" else dataBean.FVID
-                            1 -> it.text = if (dataBean.DGID.isNullOrEmpty()) "空" else dataBean.DGID
-                            2 -> it.text = if (dataBean.GXID.isNullOrEmpty()) "空" else dataBean.GXID
-                            3 -> it.text = if (dataBean.PID.isNullOrEmpty()) "空" else dataBean.PID
-                            4 -> it.text = if (dataBean.PNAME1.isNullOrEmpty()) "空" else dataBean.PNAME1
-                            5 -> it.text = if (dataBean.PNAME2.isNullOrEmpty()) "空" else dataBean.PNAME2
-                            6 -> it.text = if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
-                            7 -> it.text = if (dataBean.PNAME4.isNullOrEmpty()) "空" else dataBean.PNAME4
+                            0 -> it.text = if (dataBean.PID.isNullOrEmpty()) "空" else dataBean.PID
+                            1 -> it.text = if (dataBean.PNAME1.isNullOrEmpty()) "空" else dataBean.PNAME1
+                            2 -> it.text = if (dataBean.PNAME2.isNullOrEmpty()) "空" else dataBean.PNAME2
+                            3 -> it.text = if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
+                            4 -> it.text = if (dataBean.QTY5.isNullOrEmpty()) "空" else dataBean.QTY5
+                            5 -> it.text = if (dataBean.QTY1.isNullOrEmpty()) "空" else dataBean.QTY1
+                            6 -> it.text = "未知"//if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
+                            7 -> it.text = if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
                             8 -> it.text = if (dataBean.PNAME5.isNullOrEmpty()) "空" else dataBean.PNAME5
-                            9 -> it.text = if (dataBean.PNAME6.isNullOrEmpty()) "空" else dataBean.PNAME6
-                            10 -> it.text = if (dataBean.QTY1.isNullOrEmpty()) "空" else dataBean.QTY1
-                            11 -> it.text = 0.toString() //if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
+                            9 -> it.text = if (dataBean.DATE1.isNullOrEmpty()) "空" else dataBean.DATE1
+                            10 -> it.text = if (dataBean.USERNAME.isNullOrEmpty()) "空" else dataBean.USERNAME
+                            11 -> it.text = LoginControl.gxBean.PNAME7 //0.toString() //if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
                             12 -> it.text = 0.toString() //if (dataBean.QTY3.isNullOrEmpty()) "空" else dataBean.QTY3
                             13 -> it.text = if (dataBean.QTY4.isNullOrEmpty()) "空" else dataBean.QTY4
                             14 -> it.text = if (dataBean.QTY5.isNullOrEmpty()) "空" else dataBean.QTY5
@@ -157,12 +160,12 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                         }
                     }
                 }
-                for (i in 0..20) {
-                    val itemLayout: View? = holder.tag("itemLayout$i")
-                    when (i) {
-                        0, 7, 8, 9, 10, 15, 16, 18, 19 -> itemLayout?.visibility = View.GONE
-                    }
-                }
+//                for (i in 0..rowCount) {
+//                    val itemLayout: View? = holder.tag("itemLayout$i")
+//                    when (i) {
+//                        0, 7, 8, 9, 10, 15, 16, 18, 19 -> itemLayout?.visibility = View.GONE
+//                    }
+//                }
 
                 val itemLayout11: View? = holder.tag("itemLayout11")
                 val itemLayout12: View? = holder.tag("itemLayout12")
@@ -175,8 +178,8 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
                     }
                 }
 
-                itemLayout11?.setOnClickListener(clickListener)
-                itemLayout12?.setOnClickListener(clickListener)
+//                itemLayout11?.setOnClickListener(clickListener)
+//                itemLayout12?.setOnClickListener(clickListener)
 
 //                itemLayout11?.setOnClickListener {
 ////                    mParentILayout.startIView(UIInputDialog().apply {
@@ -240,7 +243,7 @@ class OrderListUIView(val DGID: String, val GXID: Int /*工序*/) : BaseRecycleU
         super.onUILoadData(page)
         Rx.base(object : RFunc<MutableList<OrderBean>>() {
             override fun onFuncCall(): MutableList<OrderBean> {
-                return DbUtil.UP_GET_DGID(DGID, GXID)
+                return DbUtil.UP_GET_DGID(DGID)
             }
         }, object : RSubscriber<MutableList<OrderBean>>() {
 

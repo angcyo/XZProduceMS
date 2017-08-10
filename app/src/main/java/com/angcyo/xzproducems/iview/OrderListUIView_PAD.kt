@@ -292,7 +292,7 @@ class OrderListUIView_PAD(val DGID: String, val GXID: Int /*工序*/) : BaseRecy
 
         Rx.base(object : RFunc<MutableList<OrderBean>>() {
             override fun onFuncCall(): MutableList<OrderBean> {
-                return DbUtil.UP_GET_DGID(DGID, GXID)
+                return DbUtil.UP_GET_DGID(DGID/*, GXID*/)
             }
         }, object : RSubscriber<MutableList<OrderBean>>() {
 

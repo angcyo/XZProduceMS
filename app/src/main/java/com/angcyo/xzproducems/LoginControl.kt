@@ -11,8 +11,10 @@ object LoginControl {
     var userid: String = ""
     var loginBean: LoginBean = LoginBean(0, 1)
     var gxList = mutableListOf<GxBean>()
+    var gxBean = GxBean("99", "管理员")
 
     fun reset() {
+        gxBean = GxBean("99", "管理员")
         gxList.clear()
         userid = ""
         loginBean = LoginBean(0, 1)

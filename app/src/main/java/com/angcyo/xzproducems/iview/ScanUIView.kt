@@ -2,7 +2,6 @@ package com.angcyo.xzproducems.iview
 
 import com.angcyo.uiview.base.UIScanView
 import com.angcyo.uiview.utils.T_
-import com.angcyo.xzproducems.LoginControl
 
 /**
  * Created by angcyo on 2017-08-02.
@@ -28,7 +27,7 @@ class ScanUIView : UIScanView() {
             }
         } else {
             if (toOrderList) {
-                replaceIView(OrderListUIView(orderId!!, LoginControl.gxid))
+                replaceIView(OrderListUIView(orderId!!/*, LoginControl.gxid*/))
             } else {
                 replaceIView(QueryListUIView(orderId!!))
             }

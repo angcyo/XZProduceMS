@@ -163,7 +163,7 @@ class MainUIView_PAD(val loginBean: LoginBean) : BaseItemUIView() {
                                             if (LoginUIView.isPad(mActivity)) {
                                                 startIView(OrderListUIView_PAD(orderId!!, LoginControl.gxid))
                                             } else {
-                                                startIView(OrderListUIView(orderId!!, LoginControl.gxid))
+                                                startIView(OrderListUIView(orderId!!/*, LoginControl.gxid*/))
                                             }
                                         } else {
                                             if (LoginUIView.isPad(mActivity)) {

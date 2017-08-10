@@ -234,12 +234,12 @@ object DbUtil {
     }
 
     /**取订单数据*/
-    fun UP_GET_DGID(DGID: String /*订单号*/, GXID: Int /*工序*/): MutableList<OrderBean> {
+    fun UP_GET_DGID(DGID: String /*订单号*/ /*, GXID: Int *//*工序*/): MutableList<OrderBean> {
         var result: MutableList<OrderBean> = mutableListOf()
-        Jtds.prepareCall_set("UP_GET_DGID", 2,
+        Jtds.prepareCall_set("UP_GET_DGID", 1,
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("DGID", DGID)
-                    jtdsCallableStatement.setInt("GXID", GXID)
+                    //jtdsCallableStatement.setInt("GXID", GXID)
                 },
                 { jtdsResultSet ->
                     while (jtdsResultSet.next()) {

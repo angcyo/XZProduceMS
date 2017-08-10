@@ -161,7 +161,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
 
                 //工序选择
 
-                val gx1List = mutableListOf("请选择上工序")
+                val gx1List = mutableListOf<String>(/*"请选择上工序"*/)
                 LoginControl.gxList.map {
                     gx1List.add(it.PNAME7.trim())
                 }
@@ -177,6 +177,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
 
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         //T_.show(position.toString())
+                        LoginControl.gxBean = LoginControl.gxList[position]
                     }
                 }
 
@@ -211,7 +212,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                                     } else {
                                         if (holder.v<RadioButton>(R.id.radio_button1)!!.isChecked) {
                                             LoginControl.gxid = idEditText!!.string().toInt()
-                                            startIView(OrderListUIView(orderId!!, LoginControl.gxid))
+                                            startIView(OrderListUIView(orderId!! /*, LoginControl.gxid*/))
                                         } else {
                                             startIView(QueryListUIView(orderId!!))
                                         }
@@ -244,7 +245,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                     //添加订单
                     holder.delayClick(R.id.add_order_button, object : DelayClick() {
                         override fun onRClick(view: View?) {
-                            startIView(OrderListUIView(editText!!.string(), idEditText!!.string().toInt()))
+                            startIView(OrderListUIView(editText!!.string() /*, idEditText!!.string().toInt()*/))
 
 //                        demo(editText!!.string(), 1)
 //                        editText?.let {
@@ -272,7 +273,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
     fun demo(DGID: String /*订单号*/, GXID: Int /*工序*/) {
         Rx.base(object : RFunc<MutableList<OrderBean>>() {
             override fun onFuncCall(): MutableList<OrderBean> {
-                return DbUtil.UP_GET_DGID(DGID, GXID)
+                return DbUtil.UP_GET_DGID(DGID /*, GXID*/)
             }
         }, object : RSubscriber<MutableList<OrderBean>>() {
             override fun onStart() {
