@@ -1,6 +1,7 @@
 package com.angcyo.xzproducems.utils
 
 import com.angcyo.library.utils.L
+import com.angcyo.xzproducems.bean.GxBean
 import com.angcyo.xzproducems.bean.LoginBean
 import com.angcyo.xzproducems.bean.OrderBean
 import com.angcyo.xzproducems.bean.QueryBean
@@ -64,9 +65,11 @@ object DbUtil {
                     if (jtdsResultSet.next()) {
                         val GXID = jtdsResultSet.getInt("GXID")
                         val IsModify = jtdsResultSet.getInt("IsModify")
-                        L.e("call: login -> $GXID $IsModify")
+                        val PNAME7 = jtdsResultSet.getString("PNAME7")
+                        L.e("call: login -> $GXID:$PNAME7 $IsModify")
                         result.GXID = GXID
                         result.IsModify = IsModify
+                        result.PNAME7 = PNAME7
                     } else {
                         L.e("call: login -> 无数据")
                     }
@@ -290,6 +293,27 @@ object DbUtil {
 //                                jtdsResultSet.getString(1)
 //                        )
                         //L.e("call: UP_GET_DGID -> $bean")
+                        result.add(bean)
+                    }
+                })
+
+        return result
+    }
+
+    /**
+     * 取工序
+     */
+    fun UP_GET_SYSDICT(): MutableList<GxBean> {
+        var result: MutableList<GxBean> = mutableListOf()
+        Jtds.prepareCall_set("UP_GET_SYSDICT", 0,
+                null,
+                { jtdsResultSet ->
+                    while (jtdsResultSet.next()) {
+                        val bean = GxBean(
+                                jtdsResultSet.getString("GXID"),
+                                jtdsResultSet.getString("PNAME7")
+                        )
+                        L.e("call: UP_GET_SYSDICT -> $bean")
                         result.add(bean)
                     }
                 })

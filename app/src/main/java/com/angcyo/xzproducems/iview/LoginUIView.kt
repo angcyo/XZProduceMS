@@ -16,7 +16,6 @@ import com.angcyo.uiview.net.RSubscriber
 import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.utils.RUtils
-import com.angcyo.uiview.utils.ScreenUtil
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
@@ -35,7 +34,8 @@ class LoginUIView : BaseItemUIView() {
 
     companion object {
         fun isPad(context: Context): Boolean {
-            return RUtils.getScreenInches(context) > 6 && ScreenUtil.screenWidth > ScreenUtil.screenHeight
+            return false
+            //return RUtils.getScreenInches(context) > 6 && ScreenUtil.screenWidth > ScreenUtil.screenHeight
         }
     }
 
@@ -91,6 +91,8 @@ class LoginUIView : BaseItemUIView() {
 
                         Rx.base(object : RFunc<LoginBean>() {
                             override fun onFuncCall(): LoginBean {
+                                LoginControl.gxList = DbUtil.UP_GET_SYSDICT()
+
                                 return DbUtil.login(nameView.string(), pwView.string())
                             }
 

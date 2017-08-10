@@ -3,7 +3,7 @@ package com.angcyo.xzproducems.iview
 import android.Manifest
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
+import android.widget.*
 import com.angcyo.uiview.base.Item
 import com.angcyo.uiview.base.SingleItem
 import com.angcyo.uiview.base.UIScanView
@@ -23,6 +23,7 @@ import com.angcyo.xzproducems.base.BaseItemUIView
 import com.angcyo.xzproducems.bean.LoginBean
 import com.angcyo.xzproducems.bean.OrderBean
 import com.angcyo.xzproducems.utils.DbUtil
+
 
 /**
  * Created by angcyo on 2017-07-23.
@@ -84,7 +85,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 editText?.let {
                     if (BuildConfig.DEBUG) {
                         if (it.isEmpty) {
-                            it.setInputText("XK-17070308")
+                            it.setInputText("XK-17070329") //334
                         }
                     }
                 }
@@ -125,6 +126,11 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                     holder?.v<View>(R.id.radio_button2)?.visibility = View.GONE
                 }
 
+                val gx1: Spinner = holder!!.v(R.id.gx_1)
+                val gx2: Spinner = holder!!.v(R.id.gx_2)
+
+                gx2.isEnabled = loginBean.GXID == 99
+
                 idEditText = holder?.v(R.id.id_text)
                 idEditText?.let {
                     it.setInputText(loginBean.GXID.toString())
@@ -135,6 +141,50 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                         it.isEnabled = false
                     }
                 }
+
+                //功能控制
+                val radioGroup: RadioGroup = holder!!.v(R.id.radio_group)
+                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    holder!!.v<View>(R.id.control_layout).visibility = if (checkedId == R.id.radio_button1) View.VISIBLE else View.GONE
+                }
+
+                //工序选择
+
+                val gx1List = mutableListOf("请选择上工序")
+                LoginControl.gxList.map {
+                    gx1List.add(it.PNAME7.trim())
+                }
+
+                val adapter1 = ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, gx1List)
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                //绑定 Adapter到控件
+                gx1.adapter = adapter1
+                gx1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        //T_.show("onNothingSelected")
+                    }
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        //T_.show(position.toString())
+                    }
+                }
+
+                val gx2List = mutableListOf(LoginControl.loginBean.PNAME7)
+
+                val adapter2 = ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, gx2List)
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                //绑定 Adapter到控件
+                gx2.adapter = adapter2
+                gx2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        //T_.show("onNothingSelected")
+                    }
+
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        //T_.show(position.toString())
+                    }
+                }
+
 
                 //扫一扫
                 holder?.delayClick(R.id.scan_button, object : DelayClick() {
