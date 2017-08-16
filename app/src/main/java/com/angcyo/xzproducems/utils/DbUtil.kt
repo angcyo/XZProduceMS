@@ -1,6 +1,7 @@
 package com.angcyo.xzproducems.utils
 
 import com.angcyo.library.utils.L
+import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.bean.GxBean
 import com.angcyo.xzproducems.bean.LoginBean
 import com.angcyo.xzproducems.bean.OrderBean
@@ -66,10 +67,12 @@ object DbUtil {
                         val GXID = jtdsResultSet.getInt("GXID")
                         val IsModify = jtdsResultSet.getInt("IsModify")
                         val PNAME7 = jtdsResultSet.getString("PNAME7")
-                        L.e("call: login -> $GXID:$PNAME7 $IsModify")
+                        val IsAdmin = jtdsResultSet.getInt("IsAdmin")
+                        L.e("call: login -> $GXID:$PNAME7 $IsModify $IsAdmin")
                         result.GXID = GXID
                         result.IsModify = IsModify
                         result.PNAME7 = PNAME7
+                        result.IsAdmin = IsAdmin
                     } else {
                         L.e("call: login -> 无数据")
                     }
@@ -130,6 +133,7 @@ object DbUtil {
                                 jtdsResultSet.getString("PNAME4"),
                                 jtdsResultSet.getString("PNAME5"),
                                 jtdsResultSet.getString("PNAME6"),
+                                jtdsResultSet.getString("PNAME7"),
                                 jtdsResultSet.getString("QTY1"),
                                 jtdsResultSet.getString("QTY2"),
                                 jtdsResultSet.getString("QTY3"),
@@ -190,26 +194,31 @@ object DbUtil {
         return result
     }
 
-    /*    @FVID INT,--原订单表明细ID号
-        @DGID NVARCHAR(20),--订单号
-        @GXID INT,--工序
-        @PID NVARCHAR(20),--物料编码
-        @PNAME1 NVARCHAR(250),--名称
-        @PNAME2 NVARCHAR(250),--规格
-        @PNAME3 NVARCHAR(250),
-        @PNAME4 NVARCHAR(250),
-        @PNAME5 NVARCHAR(250),
-        @PNAME6 NVARCHAR(250),
-        @QTY1 INT,--订单投产数量
-        @QTY2 INT,--已完工数量
-        @QTY3 INT,--返工数量
-        @QTY4 INT,--当前投产数量即为还有多少未生产数量
-        @QTY5 INT,--订单数量
-        @QTY6 INT,
-        @QTY7 INT,
-        @USERID NVARCHAR(20)--更新人*/
-    fun UP_MODI_PUR01_D1(orderBean: OrderBean, QTY2: String?, QTY3: String?): Boolean {
-        var result = Jtds.prepareCall_update("UP_MODI_PUR01_D1", 18,
+    /**
+     * @FVID INT,--原订单表明细ID号
+    @DGID NVARCHAR(20),--订单号
+    @GXID INT,--本工序
+    @PID NVARCHAR(20),--物料编码
+    @PNAME1 NVARCHAR(250),--名称
+    @PNAME2 NVARCHAR(250),--规格
+    @PNAME3 NVARCHAR(250),--型号
+    @PNAME4 NVARCHAR(250),
+    @PNAME5 NVARCHAR(250),订单子项备注
+    @PNAME6 NVARCHAR(250),录完数据时备注
+    @QTY1 INT,--订单投产数量
+    @QTY2 INT,--已完工数量
+    @QTY3 INT,--返工数量
+    @QTY4 INT,--当前投产数量即为还有多少未生产数量
+    @QTY5 INT,--订单数量
+    @QTY6 INT,
+    @QTY7 INT,
+    @XHNO1 INT,--上工序（*）
+    @isover int --是否完工（*），1表示没有后续工序
+    @nstate int--是否结案，1表示订单完工
+    @USERID NVARCHAR(20)--更新人
+     */
+    fun UP_MODI_PUR01_D1(orderBean: OrderBean, QTY2: String?, PNAME5: String?, isover: String, nstate: String): Boolean {
+        var result = Jtds.prepareCall_update("UP_MODI_PUR01_D1", 21,
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("@FVID", orderBean.FVID)
                     jtdsCallableStatement.setString("@DGID", orderBean.DGID)
@@ -219,16 +228,19 @@ object DbUtil {
                     jtdsCallableStatement.setString("@PNAME2", orderBean.PNAME2)
                     jtdsCallableStatement.setString("@PNAME3", orderBean.PNAME3)
                     jtdsCallableStatement.setString("@PNAME4", orderBean.PNAME4)
-                    jtdsCallableStatement.setString("@PNAME5", orderBean.PNAME5)
+                    jtdsCallableStatement.setString("@PNAME5", PNAME5)
                     jtdsCallableStatement.setString("@PNAME6", orderBean.PNAME6)
                     jtdsCallableStatement.setString("@QTY1", orderBean.QTY1)
                     jtdsCallableStatement.setString("@QTY2", QTY2)
-                    jtdsCallableStatement.setString("@QTY3", QTY3)
+                    jtdsCallableStatement.setString("@QTY3", orderBean.QTY3)
                     jtdsCallableStatement.setString("@QTY4", orderBean.QTY4)
                     jtdsCallableStatement.setString("@QTY5", orderBean.QTY5)
                     jtdsCallableStatement.setString("@QTY6", orderBean.QTY6)
                     jtdsCallableStatement.setString("@QTY7", orderBean.QTY7)
                     jtdsCallableStatement.setString("@USERID", orderBean.USERID)
+                    jtdsCallableStatement.setString("@XHNO1", LoginControl.gx2Bean.GXID)
+                    jtdsCallableStatement.setString("@isover", isover)
+                    jtdsCallableStatement.setString("@nstate", nstate)
                 })
         return result
     }
@@ -236,16 +248,21 @@ object DbUtil {
     /**取订单数据*/
     fun UP_GET_DGID(DGID: String /*订单号*/ /*, GXID: Int *//*工序*/): MutableList<OrderBean> {
         var result: MutableList<OrderBean> = mutableListOf()
-        Jtds.prepareCall_set("UP_GET_DGID", 1,
+        Jtds.prepareCall_set("UP_GET_DGID", 2,
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("DGID", DGID)
-                    //jtdsCallableStatement.setInt("GXID", GXID)
+                    jtdsCallableStatement.setInt("GXID", LoginControl.gxBean.GXID.trim().toInt())
                 },
                 { jtdsResultSet ->
                     while (jtdsResultSet.next()) {
 //                        for (i in 1..30) {
 //                            L.e("call: UP_GET_DGID -> $i ${jtdsResultSet.getString(i)}")
 //                        }
+
+                        if ("999".equals(jtdsResultSet.getString("DGID"), ignoreCase = true)) {
+                            return@prepareCall_set
+                        }
+
                         val bean = OrderBean(
                                 jtdsResultSet.getString("FVID"),
                                 jtdsResultSet.getString("DGID"),

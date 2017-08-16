@@ -20,6 +20,7 @@ import com.angcyo.xzproducems.BuildConfig
 import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseItemUIView
+import com.angcyo.xzproducems.bean.GxBean
 import com.angcyo.xzproducems.bean.LoginBean
 import com.angcyo.xzproducems.bean.OrderBean
 import com.angcyo.xzproducems.utils.DbUtil
@@ -125,7 +126,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 editText?.let {
                     if (BuildConfig.DEBUG) {
                         if (it.isEmpty) {
-                            it.setInputText("XK-17070329") //334
+                            it.setInputText("XK-17070334") //334
                         }
                     }
                 }
@@ -140,7 +141,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 val gx1: Spinner = holder!!.v(R.id.gx_1)
                 val gx2: Spinner = holder!!.v(R.id.gx_2)
 
-                gx2.isEnabled = loginBean.GXID == 99
+                gx2.isEnabled = loginBean.IsAdmin == 1
 
                 idEditText = holder?.v(R.id.id_text)
                 idEditText?.let {
@@ -159,8 +160,16 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                     holder!!.v<View>(R.id.control_layout).visibility = if (checkedId == R.id.radio_button1) View.VISIBLE else View.GONE
                 }
 
-                //工序选择
+                //是否完工, 是否结案
+                val isover_box: CheckBox = holder!!.v(R.id.isover_box)
+                val nstate_box: CheckBox = holder!!.v(R.id.nstate_box)
+                isover_box.isChecked = LoginControl.is_over
+                nstate_box.isChecked = LoginControl.is_nstate
 
+                isover_box.setOnCheckedChangeListener { _, isChecked -> LoginControl.is_over = isChecked }
+                nstate_box.setOnCheckedChangeListener { _, isChecked -> LoginControl.is_nstate = isChecked }
+
+                //工序选择
                 val gx1List = mutableListOf<String>(/*"请选择上工序"*/)
                 LoginControl.gxList.map {
                     gx1List.add(it.PNAME7.trim())
@@ -181,7 +190,18 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                     }
                 }
 
-                val gx2List = mutableListOf(LoginControl.loginBean.PNAME7)
+                val gx2List = mutableListOf<String>()
+                if (loginBean.IsAdmin == 1) {
+                    LoginControl.gx2List.clear()
+                    LoginControl.gx2List.addAll(LoginControl.gxList)
+                } else {
+                    LoginControl.gx2Bean = GxBean(LoginControl.loginBean.GXID.toString(), LoginControl.loginBean.PNAME7)
+                    LoginControl.gx2List.clear()
+                    LoginControl.gx2List.add(LoginControl.gx2Bean)
+                }
+                LoginControl.gx2List.map {
+                    gx2List.add(it.PNAME7.trim())
+                }
 
                 val adapter2 = ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, gx2List)
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -194,9 +214,9 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
 
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         //T_.show(position.toString())
+                        LoginControl.gx2Bean = LoginControl.gx2List[position]
                     }
                 }
-
 
                 //扫一扫
                 holder?.delayClick(R.id.scan_button, object : DelayClick() {

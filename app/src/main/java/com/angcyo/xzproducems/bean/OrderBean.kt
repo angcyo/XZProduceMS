@@ -12,7 +12,7 @@ data class OrderBean(
         val PNAME2: String?, // --规格
         val PNAME3: String?, //型号
         val PNAME4: String?, //工序代码
-        val PNAME5: String?, //订单子项备注
+        var PNAME5: String?, //订单子项备注
         val PNAME6: String?, //录完数据时备注
         val QTY1: String?, //--订单投产数量，
         var QTY2: String?, //--已完工数量，

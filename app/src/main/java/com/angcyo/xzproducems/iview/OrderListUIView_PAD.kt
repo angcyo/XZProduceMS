@@ -314,7 +314,7 @@ class OrderListUIView_PAD(val DGID: String, val GXID: Int /*工序*/) : BaseRecy
                            QTY2: String?, QTY3: String?) {
         Rx.base(object : RFunc<Boolean>() {
             override fun onFuncCall(): Boolean {
-                return DbUtil.UP_MODI_PUR01_D1(orderBean, QTY2, QTY3)
+                return DbUtil.UP_MODI_PUR01_D1(orderBean, QTY2, QTY3, "0", "0")
             }
         }, object : RSubscriber<Boolean>() {
 

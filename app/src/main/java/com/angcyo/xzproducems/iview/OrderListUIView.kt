@@ -14,6 +14,8 @@ import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
 import com.angcyo.uiview.utils.T_
+import com.angcyo.uiview.view.IView
+import com.angcyo.uiview.view.OnUIViewListener
 import com.angcyo.uiview.widget.RTextView
 import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.R
@@ -95,7 +97,10 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
                         4 -> tipView.text = "订单数量:"
                         5 -> tipView.text = "投产数量:"
                         6 -> tipView.text = "生产中数量:"
-                        7 -> tipView.text = "已完工数量:"
+                        7 -> tipView.also {
+                            it.text = "已完工数量(点击可修改):"
+                            it.setTextColor(ResUtil.getThemeColorAccent(mContext))
+                        }
 //                        11 -> {
 //                            tipView.also {
 //                                it.text = "已完工数量(点击可修改):"
@@ -108,7 +113,10 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
 //                                it.setTextColor(ResUtil.getThemeColorAccent(mContext))
 //                            }
 //                        }
-                        8 -> tipView.text = "备注:"
+                        8 -> tipView.also {
+                            it.text = "备注(点击可修改):"
+                            it.setTextColor(ResUtil.getThemeColorAccent(mContext))
+                        }
                         9 -> tipView.text = "更新时间:"
                         10 -> tipView.text = "更新人:"
                         11 -> tipView.text = "上工序:"
@@ -136,16 +144,16 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
                     val contentView: RTextView? = holder.tag("contentView$i")
                     contentView?.let {
                         when (i) {
-                            0 -> it.text = if (dataBean.PID.isNullOrEmpty()) "空" else dataBean.PID
-                            1 -> it.text = if (dataBean.PNAME1.isNullOrEmpty()) "空" else dataBean.PNAME1
-                            2 -> it.text = if (dataBean.PNAME2.isNullOrEmpty()) "空" else dataBean.PNAME2
-                            3 -> it.text = if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
-                            4 -> it.text = if (dataBean.QTY5.isNullOrEmpty()) "空" else dataBean.QTY5
-                            5 -> it.text = if (dataBean.QTY1.isNullOrEmpty()) "空" else dataBean.QTY1
-                            6 -> it.text = "未知"//if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
-                            7 -> it.text = if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
-                            8 -> it.text = if (dataBean.PNAME5.isNullOrEmpty()) "空" else dataBean.PNAME5
-                            9 -> it.text = if (dataBean.DATE1.isNullOrEmpty()) "空" else dataBean.DATE1
+                            0 -> it.text = QueryListUIView.getShowString(dataBean.PID)
+                            1 -> it.text = QueryListUIView.getShowString(dataBean.PNAME1)
+                            2 -> it.text = QueryListUIView.getShowString(dataBean.PNAME2)
+                            3 -> it.text = QueryListUIView.getShowString(dataBean.PNAME3)
+                            4 -> it.text = QueryListUIView.getShowString(dataBean.QTY5)
+                            5 -> it.text = QueryListUIView.getShowString(dataBean.QTY1)
+                            6 -> it.text = QueryListUIView.getShowString(dataBean.QTY4)
+                            7 -> it.text = QueryListUIView.getShowString(dataBean.QTY2)
+                            8 -> it.text = QueryListUIView.getShowString(dataBean.PNAME5)
+                            9 -> it.text = QueryListUIView.getShowString(dataBean.DATE1)
                             10 -> it.text = if (dataBean.USERNAME.isNullOrEmpty()) "空" else dataBean.USERNAME
                             11 -> it.text = LoginControl.gxBean.PNAME7 //0.toString() //if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
                             12 -> it.text = 0.toString() //if (dataBean.QTY3.isNullOrEmpty()) "空" else dataBean.QTY3
@@ -163,76 +171,81 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
 //                for (i in 0..rowCount) {
 //                    val itemLayout: View? = holder.tag("itemLayout$i")
 //                    when (i) {
-//                        0, 7, 8, 9, 10, 15, 16, 18, 19 -> itemLayout?.visibility = View.GONE
+//                        5, 6 /*0, 7, 8, 9, 10, 15, 16, 18, 19*/ -> itemLayout?.visibility = View.GONE
 //                    }
 //                }
 
-                val itemLayout11: View? = holder.tag("itemLayout11")
-                val itemLayout12: View? = holder.tag("itemLayout12")
+                val itemLayout7: View? = holder.tag("itemLayout7")
+                val itemLayout8: View? = holder.tag("itemLayout8")
 
                 val clickListener = View.OnClickListener {
-                    if (dataBean.QTY4?.toInt()!! <= 0) {
+                    if (dataBean.QTY1?.toInt()!! <= 0) {
                         T_.error("没有投产数量.")
                     } else {
-                        startIView(InputDialog(dataBean))
+                        startIView(InputDialog(dataBean).setOnUIViewListener(object : OnUIViewListener() {
+                            override fun onViewUnload(uiview: IView) {
+                                super.onViewUnload(uiview)
+                                notifyItemChanged(posInData)
+                            }
+                        }))
                     }
                 }
 
-//                itemLayout11?.setOnClickListener(clickListener)
-//                itemLayout12?.setOnClickListener(clickListener)
+                itemLayout7?.setOnClickListener(clickListener)
+                itemLayout8?.setOnClickListener(clickListener)
 
-//                itemLayout11?.setOnClickListener {
-////                    mParentILayout.startIView(UIInputDialog().apply {
-////                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-////
-////                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-////                                                           titleBarLayout: TitleBarLayout?,
-////                                                           textInputLayout: TextInputLayout?,
-////                                                           editText: ExEditText?,
-////                                                           okButton: Button?) {
-////                                editText?.apply {
-////                                    hint = "请输入完工数量"
-////                                    setIsPhone(true, 20)
-////                                }
-////
-////                                okButton?.apply {
-////                                    setOnClickListener {
-////                                        if (!editText!!.checkEmpty()) {
-////                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
-////                                        }
-////                                    }
-////                                }
-////                            }
-////
-////                        }
-////                    })
+//                itemLayout7?.setOnClickListener {
+//                    mParentILayout.startIView(UIInputDialog().apply {
+//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+//
+//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+//                                                           titleBarLayout: TitleBarLayout?,
+//                                                           textInputLayout: TextInputLayout?,
+//                                                           editText: ExEditText?,
+//                                                           okButton: Button?) {
+//                                editText?.apply {
+//                                    hint = "请输入完工数量"
+//                                    setIsPhone(true, 20)
+//                                }
+//
+//                                okButton?.apply {
+//                                    setOnClickListener {
+//                                        if (!editText!!.checkEmpty()) {
+//                                            updateData(inputDialog, posInData, dataBean, editText?.string(), dataBean.QTY3)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//                        }
+//                    })
 //                }
 
-//                itemLayout12?.setOnClickListener {
+//                itemLayout8?.setOnClickListener {
 //                    startIView(InputDialog(dataBean))
-////                    mParentILayout.startIView(UIInputDialog().apply {
-////                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
-////
-////                            override fun onInitInputDialog(inputDialog: UIInputDialog,
-////                                                           titleBarLayout: TitleBarLayout?,
-////                                                           textInputLayout: TextInputLayout?,
-////                                                           editText: ExEditText?,
-////                                                           okButton: Button?) {
-////                                editText?.apply {
-////                                    hint = "请输入返工数量"
-////                                    setIsPhone(true, 20)
-////                                }
-////
-////                                okButton?.apply {
-////                                    setOnClickListener {
-////                                        if (!editText!!.checkEmpty()) {
-////                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
-////                                        }
-////                                    }
-////                                }
-////                            }
-////                        }
-////                    })
+//                    mParentILayout.startIView(UIInputDialog().apply {
+//                        dialogConfig = object : UIInputDialog.UIInputDialogConfig() {
+//
+//                            override fun onInitInputDialog(inputDialog: UIInputDialog,
+//                                                           titleBarLayout: TitleBarLayout?,
+//                                                           textInputLayout: TextInputLayout?,
+//                                                           editText: ExEditText?,
+//                                                           okButton: Button?) {
+//                                editText?.apply {
+//                                    hint = "请输入返工数量"
+//                                    setIsPhone(true, 20)
+//                                }
+//
+//                                okButton?.apply {
+//                                    setOnClickListener {
+//                                        if (!editText!!.checkEmpty()) {
+//                                            updateData(inputDialog, posInData, dataBean, dataBean.QTY2, editText?.string())
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    })
 //                }
 
             }
@@ -265,7 +278,7 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
                            QTY2: String?, QTY3: String?) {
         Rx.base(object : RFunc<Boolean>() {
             override fun onFuncCall(): Boolean {
-                return DbUtil.UP_MODI_PUR01_D1(orderBean, QTY2, QTY3)
+                return DbUtil.UP_MODI_PUR01_D1(orderBean, QTY2, QTY3, "0", "0")
             }
         }, object : RSubscriber<Boolean>() {
 

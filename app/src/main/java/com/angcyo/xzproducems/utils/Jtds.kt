@@ -107,10 +107,10 @@ object Jtds {
                 param?.invoke(jtdsCallableStatement)
             }
 
-//            result = jtdsCallableStatement.execute()
-            val update = jtdsCallableStatement.executeUpdate()
-            result = update != 0
-            L.e("call: prepareCall_update -> $result $update")
+            result = jtdsCallableStatement.execute()
+//            val update = jtdsCallableStatement.executeUpdate()
+//            result = update != 0
+            L.e("call: prepareCall_update -> $result ")
 
             connection.close()
         } catch(e: Exception) {

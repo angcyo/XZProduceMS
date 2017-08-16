@@ -19,8 +19,8 @@
                 android:id="@+id/edit_text_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionNext"
-                android:hint="请输入完工数量:"/>
+                android:hint="请输入完工数量:"
+                android:imeOptions="actionNext"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -30,10 +30,34 @@
             <com.angcyo.uiview.widget.ExEditText
                 android:id="@+id/edit_text_2"
                 android:layout_width="match_parent"
-                android:imeOptions="actionDone"
                 android:layout_height="wrap_content"
-                android:hint="请输入返工数量:"/>
+                android:hint="请输入备注:"
+                android:imeOptions="actionDone"/>
         </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/base_xhdpi"
+            android:paddingTop="@dimen/base_xhdpi">
+
+            <CheckBox
+                android:id="@+id/isover_box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="生产完工"/>
+
+            <CheckBox
+                android:id="@+id/nstate_box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="订单结案"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
 
         <com.angcyo.uiview.widget.Button
             android:id="@+id/ok_button"
