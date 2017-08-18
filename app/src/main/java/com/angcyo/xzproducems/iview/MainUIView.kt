@@ -130,7 +130,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 editText?.let {
                     if (BuildConfig.DEBUG) {
                         if (it.isEmpty) {
-                            it.setInputText("XK-17070334") //334
+                            it.setInputText("XK-17080299") //334,XK-17070334
                         }
                     }
                 }
