@@ -39,6 +39,10 @@ class LoginUIView : BaseItemUIView() {
         }
     }
 
+    override fun haveSoftInput(): Boolean {
+        return true
+    }
+
     override fun getTitleBar(): TitleBarPattern {
         return super.getTitleBar()
     }

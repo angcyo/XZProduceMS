@@ -78,6 +78,10 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
         LoginControl.gxid = idEditText!!.string().toInt()
     }
 
+    override fun haveSoftInput(): Boolean {
+        return true
+    }
+
     override fun createItems(items: MutableList<SingleItem>?) {
         //显示
         items?.add(object : SingleItem() {
