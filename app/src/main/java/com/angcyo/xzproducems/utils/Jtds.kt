@@ -81,7 +81,7 @@ object Jtds {
             result.invoke(resultSet)
 
             connection.close()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             connection?.close()
@@ -97,7 +97,7 @@ object Jtds {
             connection = Jtds.connectDB()
 
             val paramBuild = StringBuilder()
-            for (i in 0..paramCount - 1) {
+            for (i in 0 until paramCount) {
                 paramBuild.append("?")
                 paramBuild.append(",")
             }
@@ -107,13 +107,19 @@ object Jtds {
                 param?.invoke(jtdsCallableStatement)
             }
 
-            result = jtdsCallableStatement.execute()
-//            val update = jtdsCallableStatement.executeUpdate()
-//            result = update != 0
-            L.e("call: prepareCall_update -> $result ")
-
+//            result = jtdsCallableStatement.execute()
+//            L.e("call: prepareCall_update -> $result ")
+            val update: Int
+            try {
+                update = jtdsCallableStatement.executeUpdate()
+                result = update != 0
+                L.e("call: prepareCall_update -> update:$update ")
+            } catch (e: Exception) {
+                result = jtdsCallableStatement.execute()
+                L.e("call: prepareCall_update -> result:$result ")
+            }
             connection.close()
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         } finally {
             connection?.close()
