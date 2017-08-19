@@ -222,7 +222,7 @@ object DbUtil {
                 { jtdsCallableStatement ->
                     jtdsCallableStatement.setString("@FVID", orderBean.FVID)
                     jtdsCallableStatement.setString("@DGID", orderBean.DGID)
-                    jtdsCallableStatement.setString("@GXID", LoginControl.gxBean.GXID /*orderBean.GXID*/)
+                    jtdsCallableStatement.setString("@GXID", LoginControl.gx2Bean.GXID /*orderBean.GXID*/)
                     jtdsCallableStatement.setString("@PID", orderBean.PID)
                     jtdsCallableStatement.setString("@PNAME1", orderBean.PNAME1)
                     jtdsCallableStatement.setString("@PNAME2", orderBean.PNAME2)
@@ -237,7 +237,7 @@ object DbUtil {
                     jtdsCallableStatement.setString("@QTY5", orderBean.QTY5)
                     jtdsCallableStatement.setString("@QTY6", orderBean.QTY6)
                     jtdsCallableStatement.setString("@QTY7", orderBean.QTY7)
-                    jtdsCallableStatement.setString("@XHNO1", LoginControl.gx2Bean.GXID)
+                    jtdsCallableStatement.setString("@XHNO1", LoginControl.gxBean.GXID)
                     jtdsCallableStatement.setString("@isover", isover)
                     jtdsCallableStatement.setString("@nstate", nstate)
                     jtdsCallableStatement.setString("@USERID", orderBean.USERID)
