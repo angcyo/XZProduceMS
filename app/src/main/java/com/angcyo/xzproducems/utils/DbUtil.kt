@@ -237,10 +237,10 @@ object DbUtil {
                     jtdsCallableStatement.setString("@QTY5", orderBean.QTY5)
                     jtdsCallableStatement.setString("@QTY6", orderBean.QTY6)
                     jtdsCallableStatement.setString("@QTY7", orderBean.QTY7)
-                    jtdsCallableStatement.setString("@USERID", orderBean.USERID)
                     jtdsCallableStatement.setString("@XHNO1", LoginControl.gx2Bean.GXID)
                     jtdsCallableStatement.setString("@isover", isover)
                     jtdsCallableStatement.setString("@nstate", nstate)
+                    jtdsCallableStatement.setString("@USERID", orderBean.USERID)
                 })
         return result
     }
