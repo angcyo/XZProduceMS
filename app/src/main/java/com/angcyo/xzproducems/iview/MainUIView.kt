@@ -41,7 +41,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
             if (result.startsWith("||")) {
                 try {
                     orderId = result.substring(2).split("|")[1]
-                } catch(e: Exception) {
+                } catch (e: Exception) {
                 }
             }
             return orderId
@@ -53,7 +53,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 .setShowBackImageView(false)
                 .addRightItem(TitleBarPattern.TitleBarItem("关于我们") {
                     startIView(AboutMeUIView().setEnableClipMode(ClipMode.CLIP_BOTH))
-                })
+                }.setVisibility(View.INVISIBLE))
     }
 
     override fun getItemLayoutId(position: Int): Int {
@@ -130,7 +130,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                 editText?.let {
                     if (BuildConfig.DEBUG) {
                         if (it.isEmpty) {
-                            it.setInputText("XK-17080299") //334,XK-17070334
+                            it.setInputText("XD17080357") //334,XK-17070334
                         }
                     }
                 }
@@ -251,7 +251,7 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
             }
         })
 
-        if (BuildConfig.DEBUG) {
+        if (true /*BuildConfig.DEBUG*/) {
             //控制按钮
             items?.add(object : SingleItem() {
                 override fun onBindView(holder: RBaseViewHolder, posInData: Int, dataBean: Item?) {
@@ -266,6 +266,9 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
                             }
                         }
                     })
+                    if (!BuildConfig.DEBUG) {
+                        holder.v<View>(R.id.add_order_button).visibility = View.INVISIBLE
+                    }
                     //添加订单
                     holder.delayClick(R.id.add_order_button, object : DelayClick() {
                         override fun onRClick(view: View?) {

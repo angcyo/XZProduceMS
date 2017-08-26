@@ -41,7 +41,8 @@
             android:gravity="center"
             android:paddingBottom="@dimen/base_xhdpi"
             android:paddingTop="@dimen/base_xhdpi"
-            android:text="测试按钮"/>
+            android:text="测试按钮"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

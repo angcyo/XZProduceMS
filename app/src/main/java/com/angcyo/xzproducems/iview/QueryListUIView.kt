@@ -41,7 +41,8 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
     override fun createAdapter(): RExBaseAdapter<String, QueryBean, String> {
         return object : RExBaseAdapter<String, QueryBean, String>(mActivity) {
 
-            var maxItemCount: Int = (5 + LoginControl.gxList.size - 1)//去掉管理员工序数量
+            var frontItemCount = 7 //前面有多少个item
+            var maxItemCount: Int = (frontItemCount + LoginControl.gxList.size - 1)//去掉管理员工序数量
 
             override fun getItemLayoutId(viewType: Int): Int {
                 return 0
@@ -86,11 +87,13 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                         1 -> tipView.text = "名称:"
                         2 -> tipView.text = "规格:"
                         3 -> tipView.text = "型号:"
-                        4 -> tipView.text = "订单数量:"
+                        4 -> tipView.text = "订单子项备注:"
+                        5 -> tipView.text = "订单结案备注:"
+                        6 -> tipView.text = "订单数量:"
                         maxItemCount -> tipView.text = "待出货数量:"
                         else -> {
                             //L.e("call: createItemView ->$maxItemCount ${LoginControl.gxList.size} $i ${maxItemCount - i + 1}")
-                            tipView.text = LoginControl.gxList[i - 5].PNAME7
+                            tipView.text = LoginControl.gxList[i - frontItemCount].PNAME7
                         }
                     }
 
@@ -109,25 +112,6 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                 for (i in 0..maxItemCount) {
                     val contentView: RTextView? = holder.tag("contentView$i")
                     contentView?.let {
-                        //                        when (i) {
-//                            0 -> it.text = if (dataBean.DGID.isNullOrEmpty()) "空" else dataBean.DGID
-//                            1 -> it.text = if (dataBean.GXID.isNullOrEmpty()) "空" else dataBean.GXID
-//                            2 -> it.text = if (dataBean.PID.isNullOrEmpty()) "空" else dataBean.PID
-//                            3 -> it.text = if (dataBean.PNAME1.isNullOrEmpty()) "空" else dataBean.PNAME1
-//                            4 -> it.text = if (dataBean.PNAME2.isNullOrEmpty()) "空" else dataBean.PNAME2
-//                            5 -> it.text = if (dataBean.PNAME3.isNullOrEmpty()) "空" else dataBean.PNAME3
-//                            6 -> it.text = if (dataBean.PNAME4.isNullOrEmpty()) "空" else dataBean.PNAME4
-//                            7 -> it.text = if (dataBean.PNAME5.isNullOrEmpty()) "空" else dataBean.PNAME5
-//                            8 -> it.text = if (dataBean.PNAME6.isNullOrEmpty()) "空" else dataBean.PNAME6
-//                            9 -> it.text = if (dataBean.QTY1.isNullOrEmpty()) "空" else dataBean.QTY1
-//                            10 -> it.text = if (dataBean.QTY2.isNullOrEmpty()) "空" else dataBean.QTY2
-//                            11 -> it.text = if (dataBean.QTY3.isNullOrEmpty()) "空" else dataBean.QTY3
-//                            12 -> it.text = if (dataBean.QTY4.isNullOrEmpty()) "空" else dataBean.QTY4
-//                            13 -> it.text = if (dataBean.QTY5.isNullOrEmpty()) "空" else dataBean.QTY5
-//                            14 -> it.text = if (dataBean.QTY6.isNullOrEmpty()) "空" else dataBean.QTY6
-//                            15 -> it.text = if (dataBean.QTY7.isNullOrEmpty()) "空" else dataBean.QTY7
-//                            16 -> it.text = if (dataBean.QTY8.isNullOrEmpty()) "空" else dataBean.QTY8
-//                        }
                         when (i) {
 //                        0 -> tipView.text = "订单号:"
 //                        1 -> tipView.text = "工序:"
@@ -135,10 +119,12 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                             1 -> it.text = getShowString(dataBean.PNAME1)//"名称:"
                             2 -> it.text = getShowString(dataBean.PNAME2)//"规格:"
                             3 -> it.text = getShowString(dataBean.PNAME3)//"型号:"
-                            4 -> it.text = getShowString(dataBean.QTY1)//"订单数量:"
+                            4 -> it.text = getShowString(dataBean.PNAME5)//
+                            5 -> it.text = getShowString(dataBean.PNAME6)//
+                            6 -> it.text = getShowString(dataBean.QTY1)//"订单数量:"
                             maxItemCount -> it.text = getShowString(dataBean.QTY8)//"待出货数量:"
                             else -> {
-                                when (i - 5) {
+                                when (i - frontItemCount) {
                                     0 -> it.text = getShowString(dataBean.QTY2)
                                     1 -> it.text = getShowString(dataBean.QTY3)
                                     2 -> it.text = getShowString(dataBean.QTY4)
@@ -150,17 +136,6 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
                         }
                     }
                 }
-
-//                for (i in 0..16) {
-//                    val tipView: View? = holder.tag("tipView$i")
-//                    val contentView: View? = holder.tag("contentView$i")
-//                    when (i) {
-//                        6, 7, 8 -> {
-//                            tipView?.visibility = View.GONE
-//                            contentView?.visibility = View.GONE
-//                        }
-//                    }
-//                }
             }
         }
     }

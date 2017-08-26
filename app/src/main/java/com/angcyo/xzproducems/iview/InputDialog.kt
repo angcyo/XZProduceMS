@@ -48,7 +48,7 @@ class InputDialog(val orderBean: OrderBean) : UIInputDialog() {
 
         val okButton: Button = mViewHolder.v(R.id.ok_button)
 
-        editText1.setIsPhone(true, 40)
+        editText1.setIsNumber(true, true, 40)
         editText2.setIsPhone(false, 40)
 
         showSoftInput(editText1)

@@ -179,7 +179,7 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
                 val itemLayout8: View? = holder.tag("itemLayout8")
 
                 val clickListener = View.OnClickListener {
-                    if (dataBean.QTY1?.toInt()!! <= 0) {
+                    if (dataBean.QTY1?.toFloat()!! <= 0) {
                         T_.error("没有投产数量.")
                     } else {
                         startIView(InputDialog(dataBean).setOnUIViewListener(object : OnUIViewListener() {
