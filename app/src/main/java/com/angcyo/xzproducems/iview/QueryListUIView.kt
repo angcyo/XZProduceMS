@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.angcyo.uiview.Root
+import com.angcyo.uiview.model.TitleBarPattern
 import com.angcyo.uiview.net.RException
 import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
@@ -11,12 +13,14 @@ import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
+import com.angcyo.uiview.utils.RUtils
 import com.angcyo.uiview.widget.RTextView
 import com.angcyo.xzproducems.LoginControl
 import com.angcyo.xzproducems.R
 import com.angcyo.xzproducems.base.BaseRecycleUIView
 import com.angcyo.xzproducems.bean.QueryBean
 import com.angcyo.xzproducems.utils.DbUtil
+
 
 /**
  * Created by angcyo on 2017-07-24.
@@ -27,6 +31,14 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
         fun getShowString(s: String?): String {
             return if (s.isNullOrEmpty()) "空" else s!!
         }
+    }
+
+    override fun getTitleBar(): TitleBarPattern {
+        return super.getTitleBar().addRightItem(TitleBarPattern.TitleBarItem("分享") {
+            val filePath = Root.createFilePath()
+            RUtils.saveRecyclerViewBitmap(filePath, mRecyclerView, Color.WHITE)
+            RUtils.shareImage(mActivity, filePath, "分享结果")
+        }.setVisibility(View.INVISIBLE))
     }
 
     override fun getTitleString(): String {
@@ -142,6 +154,7 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
 
     override fun onUILoadData(page: Int) {
         super.onUILoadData(page)
+        uiTitleBarContainer.hideRightItem(0)
         Rx.base(object : RFunc<MutableList<QueryBean>>() {
             override fun onFuncCall(): MutableList<QueryBean> {
                 return DbUtil.UP_QUERY_PUR01(DGID)
@@ -156,6 +169,7 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
             override fun onSucceed(bean: MutableList<QueryBean>) {
                 super.onSucceed(bean)
                 onUILoadFinish(bean)
+                uiTitleBarContainer.showRightItem(0)
             }
         })
     }

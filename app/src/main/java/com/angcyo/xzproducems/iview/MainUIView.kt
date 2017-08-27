@@ -1,9 +1,11 @@
 package com.angcyo.xzproducems.iview
 
 import android.Manifest
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.angcyo.uiview.Root
 import com.angcyo.uiview.base.Item
 import com.angcyo.uiview.base.SingleItem
 import com.angcyo.uiview.base.UIScanView
@@ -13,6 +15,7 @@ import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
 import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
+import com.angcyo.uiview.utils.RUtils
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.DelayClick
 import com.angcyo.uiview.widget.ExEditText
@@ -52,7 +55,10 @@ class MainUIView(val loginBean: LoginBean) : BaseItemUIView() {
         return super.getTitleBar()
                 .setShowBackImageView(false)
                 .addRightItem(TitleBarPattern.TitleBarItem("关于我们") {
-                    startIView(AboutMeUIView().setEnableClipMode(ClipMode.CLIP_BOTH))
+                    //startIView(AboutMeUIView().setEnableClipMode(ClipMode.CLIP_BOTH))
+                    val filePath = Root.createFilePath()
+                    RUtils.saveRecyclerViewBitmap(filePath, mRecyclerView, Color.WHITE)
+                    RUtils.shareImage(mActivity, filePath, "分享结果")
                 }.setVisibility(View.INVISIBLE))
     }
 

@@ -1,5 +1,6 @@
 package com.angcyo.xzproducems.iview
 
+import android.app.ActivityManager
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -87,6 +88,13 @@ class LoginUIView : BaseItemUIView() {
                         if (BuildConfig.DEBUG) {
                             DbUtil.demo()
                             L.e("call: demo -> ${RUtils.getScreenInches(mActivity)}")
+
+                            val manager = mActivity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                            manager.largeMemoryClass
+                            manager.memoryClass
+
+                            //96 256
+                            L.e("call: demo -> ${manager.memoryClass}MB ${manager.largeMemoryClass}MB")
                         }
 
                         if (nameView.checkEmpty() || pwView.checkEmpty()) {

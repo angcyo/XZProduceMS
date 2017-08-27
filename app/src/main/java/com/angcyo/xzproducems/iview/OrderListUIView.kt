@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.angcyo.uiview.Root
 import com.angcyo.uiview.dialog.UIInputDialog
 import com.angcyo.uiview.dialog.UILoading
+import com.angcyo.uiview.model.TitleBarPattern
 import com.angcyo.uiview.net.RException
 import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
@@ -13,6 +15,7 @@ import com.angcyo.uiview.net.Rx
 import com.angcyo.uiview.recycler.RBaseViewHolder
 import com.angcyo.uiview.recycler.adapter.RExBaseAdapter
 import com.angcyo.uiview.resources.ResUtil
+import com.angcyo.uiview.utils.RUtils
 import com.angcyo.uiview.utils.T_
 import com.angcyo.uiview.view.IView
 import com.angcyo.uiview.view.OnUIViewListener
@@ -37,6 +40,14 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
 
     override fun getTitleString(): String {
         return "生产汇报"
+    }
+
+    override fun getTitleBar(): TitleBarPattern {
+        return super.getTitleBar().addRightItem(TitleBarPattern.TitleBarItem("分享") {
+            val filePath = Root.createFilePath()
+            RUtils.saveRecyclerViewBitmap(filePath, mRecyclerView, Color.WHITE)
+            RUtils.shareImage(mActivity, filePath, "分享结果")
+        }.setVisibility(View.INVISIBLE))
     }
 
     private val rowCount = 11
@@ -254,6 +265,7 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
 
     override fun onUILoadData(page: Int) {
         super.onUILoadData(page)
+        uiTitleBarContainer.hideRightItem(0)
         Rx.base(object : RFunc<MutableList<OrderBean>>() {
             override fun onFuncCall(): MutableList<OrderBean> {
                 return DbUtil.UP_GET_DGID(DGID)
@@ -268,6 +280,7 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
             override fun onSucceed(bean: MutableList<OrderBean>) {
                 super.onSucceed(bean)
                 onUILoadFinish(bean)
+                uiTitleBarContainer.showRightItem(0)
             }
         })
     }
