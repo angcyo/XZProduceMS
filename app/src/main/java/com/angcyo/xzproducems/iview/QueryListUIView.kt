@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.angcyo.uiview.Root
+import com.angcyo.uiview.model.TitleBarItem
 import com.angcyo.uiview.model.TitleBarPattern
 import com.angcyo.uiview.net.RException
 import com.angcyo.uiview.net.RFunc
@@ -34,7 +35,7 @@ class QueryListUIView(val DGID: String) : BaseRecycleUIView<String, QueryBean, S
     }
 
     override fun getTitleBar(): TitleBarPattern {
-        return super.getTitleBar().addRightItem(TitleBarPattern.TitleBarItem("分享") {
+        return super.getTitleBar().addRightItem(TitleBarItem("分享") {
             val filePath = Root.createFilePath()
             RUtils.saveRecyclerViewBitmap(filePath, mRecyclerView, Color.WHITE)
             RUtils.shareImage(mActivity, filePath, "分享结果")

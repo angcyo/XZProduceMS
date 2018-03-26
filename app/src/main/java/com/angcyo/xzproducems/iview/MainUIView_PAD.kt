@@ -11,6 +11,7 @@ import com.angcyo.uiview.base.Item
 import com.angcyo.uiview.base.SingleItem
 import com.angcyo.uiview.base.UIScanView
 import com.angcyo.uiview.container.UIParam
+import com.angcyo.uiview.model.TitleBarItem
 import com.angcyo.uiview.model.TitleBarPattern
 import com.angcyo.uiview.net.RFunc
 import com.angcyo.uiview.net.RSubscriber
@@ -51,7 +52,7 @@ class MainUIView_PAD(val loginBean: LoginBean) : BaseItemUIView() {
     override fun getTitleBar(): TitleBarPattern {
         return super.getTitleBar()
                 .setShowBackImageView(false)
-                .addRightItem(TitleBarPattern.TitleBarItem("关于我们") {
+                .addRightItem(TitleBarItem("关于我们") {
                     startIView(AboutMeUIView().setEnableClipMode(ClipMode.CLIP_BOTH))
                 })
     }
@@ -63,7 +64,7 @@ class MainUIView_PAD(val loginBean: LoginBean) : BaseItemUIView() {
         }
     }
 
-    override fun inflateBaseView(container: FrameLayout?, inflater: LayoutInflater?): View {
+    override fun inflateBaseView(container: FrameLayout, inflater: LayoutInflater): View {
         val baseView = super.inflateBaseView(container, inflater)
         mBaseContentLayout.layoutParams = FrameLayout.LayoutParams(LoginControl.PAD_WIDTH * density().toInt(), -1).apply {
             gravity = Gravity.CENTER_HORIZONTAL
@@ -85,10 +86,10 @@ class MainUIView_PAD(val loginBean: LoginBean) : BaseItemUIView() {
         LoginControl.gxid = idEditText!!.string().toInt()
     }
 
-    override fun createItems(items: MutableList<SingleItem>?) {
+    override fun createItems(items: MutableList<SingleItem>) {
         //显示, 输入信息, 二维码
         items?.add(object : SingleItem() {
-            override fun onBindView(holder: RBaseViewHolder?, posInData: Int, dataBean: Item?) {
+            override fun onBindView(holder: RBaseViewHolder, posInData: Int, dataBean: Item?) {
                 editText = holder?.v(R.id.edit_text)
 
                 editText?.let {

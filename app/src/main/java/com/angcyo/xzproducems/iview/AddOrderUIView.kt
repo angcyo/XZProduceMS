@@ -90,7 +90,7 @@ class AddOrderUIView : BaseItemUIView() {
         return inputLayout
     }
 
-    override fun createItems(items: MutableList<SingleItem>?) {
+    override fun createItems(items: MutableList<SingleItem>) {
         for (i in 0..15) {
             items?.add(object : SingleItem() {
                 override fun onBindView(holder: RBaseViewHolder, posInData: Int, dataBean: Item?) {

@@ -30,7 +30,7 @@ import com.angcyo.xzproducems.utils.DbUtil
  * Version: 1.0.0
  */
 class InputDialog(val orderBean: OrderBean) : UIInputDialog() {
-    override fun inflateDialogView(dialogRootLayout: FrameLayout?, inflater: LayoutInflater?): View {
+    override fun inflateDialogView(dialogRootLayout: FrameLayout, inflater: LayoutInflater): View {
         return inflate(R.layout.view_input_dialog)
     }
 

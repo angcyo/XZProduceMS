@@ -19,7 +19,7 @@ class WarnListDialog : UIRecyclerDialog<String, String, String>() {
                 return R.layout.item_single_text
             }
 
-            override fun onBindDataView(holder: RBaseViewHolder?, posInData: Int, dataBean: String?) {
+            override fun onBindDataView(holder: RBaseViewHolder, posInData: Int, dataBean: String?) {
                 super.onBindDataView(holder, posInData, dataBean)
                 dataBean?.let {
                     holder?.tv(R.id.text_view)?.text = it

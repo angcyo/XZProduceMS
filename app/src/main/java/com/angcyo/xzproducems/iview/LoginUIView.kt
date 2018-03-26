@@ -57,7 +57,7 @@ class LoginUIView : BaseItemUIView() {
         LoginControl.reset()
     }
 
-    override fun inflateBaseView(container: FrameLayout?, inflater: LayoutInflater?): View {
+    override fun inflateBaseView(container: FrameLayout, inflater: LayoutInflater): View {
         val baseView = super.inflateBaseView(container, inflater)
         if (LoginUIView.isPad(mActivity)) {
             mBaseContentLayout.layoutParams = FrameLayout.LayoutParams(LoginControl.PAD_WIDTH * density().toInt(), -1).apply {
@@ -67,7 +67,7 @@ class LoginUIView : BaseItemUIView() {
         return baseView
     }
 
-    override fun createItems(items: MutableList<SingleItem>?) {
+    override fun createItems(items: MutableList<SingleItem>) {
         items?.add(object : SingleItem() {
             override fun onBindView(holder: RBaseViewHolder, posInData: Int, dataBean: Item?) {
                 val nameView: ExEditText = holder.v(R.id.name_text)

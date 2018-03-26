@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import com.angcyo.uiview.Root
 import com.angcyo.uiview.dialog.UIInputDialog
 import com.angcyo.uiview.dialog.UILoading
+import com.angcyo.uiview.model.TitleBarItem
 import com.angcyo.uiview.model.TitleBarPattern
 import com.angcyo.uiview.net.RException
 import com.angcyo.uiview.net.RFunc
@@ -43,7 +44,7 @@ class OrderListUIView(val DGID: String/*, val GXID: Int *//*工序*/) : BaseRecy
     }
 
     override fun getTitleBar(): TitleBarPattern {
-        return super.getTitleBar().addRightItem(TitleBarPattern.TitleBarItem("分享") {
+        return super.getTitleBar().addRightItem(TitleBarItem("分享") {
             val filePath = Root.createFilePath()
             RUtils.saveRecyclerViewBitmap(filePath, mRecyclerView, Color.WHITE)
             RUtils.shareImage(mActivity, filePath, "分享结果")
